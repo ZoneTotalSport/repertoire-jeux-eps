@@ -1,0 +1,11 @@
+# Fichiers de backup et scripts d'assemblage
+games-data.backup.js
+assemble.js
+assemble.py
+
+# Fichiers enrichis (déjà intégrés dans games-data.js)
+enriched-*.js
+
+# OS files
+.DS_Store
+Thumbs.db
