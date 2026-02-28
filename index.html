@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="light">
+<html lang="fr" data-theme="light" data-lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,34 +15,71 @@
   <header class="header">
     <div class="header-left">
       <button class="menu-toggle" id="menuToggle" aria-label="Menu">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
       </button>
       <div class="logo">
         <span class="logo-icon">🏃</span>
         <div class="logo-text">
-          <h1>Répertoire EPS</h1>
-          <span class="logo-subtitle">310 jeux &bull; PFEQ Primaire</span>
+          <h1 data-fr="Répertoire EPS" data-en="PE Game Library">Répertoire EPS</h1>
+          <span class="logo-subtitle" data-fr="310 jeux &bull; PFEQ Primaire" data-en="310 games &bull; Quebec Curriculum">310 jeux &bull; PFEQ Primaire</span>
         </div>
       </div>
     </div>
     <div class="header-center">
       <div class="search-container">
-        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="searchInput" class="search-input" placeholder="Rechercher un jeu, matériel, variante...">
+        <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="searchInput" class="search-input" data-placeholder-fr="Rechercher un jeu, matériel, variante..." data-placeholder-en="Search a game, equipment, variant..." placeholder="Rechercher un jeu, matériel, variante...">
         <button class="search-clear" id="searchClear" aria-label="Effacer">&times;</button>
       </div>
     </div>
     <div class="header-right">
+      <!-- Language Toggle -->
+      <button class="lang-toggle" id="langToggle" title="Switch language">
+        <span class="lang-flag" id="langFlag">🇫🇷</span>
+        <span class="lang-label" id="langLabel">FR</span>
+      </button>
+      <!-- Random Game -->
+      <button class="header-btn action-btn" id="randomBtn" title="Jeu aléatoire">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+      </button>
+      <!-- Timer -->
+      <button class="header-btn action-btn" id="timerBtn" title="Minuteur">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3l2 2"/><path d="M19 3l-2 2"/><line x1="12" y1="1" x2="12" y2="3"/></svg>
+      </button>
+      <!-- Favorites -->
       <button class="header-btn" id="favoritesBtn" title="Mes favoris">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
         <span class="fav-count" id="favCount">0</span>
       </button>
+      <!-- Theme Toggle -->
       <button class="header-btn" id="themeToggle" title="Mode sombre">
-        <svg class="icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        <svg class="icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        <svg class="icon-sun" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        <svg class="icon-moon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
       </button>
     </div>
   </header>
+
+  <!-- TIMER OVERLAY -->
+  <div class="timer-overlay" id="timerOverlay">
+    <div class="timer-modal">
+      <button class="timer-close" id="timerClose">&times;</button>
+      <h2 class="timer-title" data-fr="⏱️ Minuteur" data-en="⏱️ Timer">⏱️ Minuteur</h2>
+      <div class="timer-display" id="timerDisplay">05:00</div>
+      <div class="timer-presets">
+        <button class="timer-preset" data-time="60">1 min</button>
+        <button class="timer-preset" data-time="120">2 min</button>
+        <button class="timer-preset active" data-time="300">5 min</button>
+        <button class="timer-preset" data-time="600">10 min</button>
+        <button class="timer-preset" data-time="900">15 min</button>
+        <button class="timer-preset" data-time="1200">20 min</button>
+      </div>
+      <div class="timer-controls">
+        <button class="timer-ctrl-btn start" id="timerStart" data-fr="▶ DÉMARRER" data-en="▶ START">▶ DÉMARRER</button>
+        <button class="timer-ctrl-btn pause" id="timerPause" data-fr="⏸ PAUSE" data-en="⏸ PAUSE" style="display:none">⏸ PAUSE</button>
+        <button class="timer-ctrl-btn reset" id="timerReset" data-fr="↺ RÉINITIALISER" data-en="↺ RESET">↺ RÉINITIALISER</button>
+      </div>
+    </div>
+  </div>
 
   <!-- MAIN LAYOUT -->
   <div class="main-layout">
@@ -52,41 +89,41 @@
       <div class="sidebar-content">
         <!-- Categories -->
         <div class="sidebar-section">
-          <h3 class="sidebar-title">Catégories</h3>
+          <h3 class="sidebar-title" data-fr="Catégories" data-en="Categories">Catégories</h3>
           <div class="category-list" id="categoryList">
             <button class="category-btn active" data-category="all">
               <span class="cat-icon">📋</span>
-              <span class="cat-name">Toutes les catégories</span>
+              <span class="cat-name" data-fr="Toutes les catégories" data-en="All categories">Toutes les catégories</span>
               <span class="cat-count" id="countAll">310</span>
             </button>
             <button class="category-btn" data-category="ballons-chasseurs">
               <span class="cat-icon">🔴</span>
-              <span class="cat-name">Ballons chasseurs</span>
+              <span class="cat-name" data-fr="Ballons chasseurs" data-en="Dodgeball games">Ballons chasseurs</span>
               <span class="cat-count" id="countBallons">60</span>
             </button>
             <button class="category-btn" data-category="poursuites">
               <span class="cat-icon">🏃</span>
-              <span class="cat-name">Jeux de poursuites</span>
+              <span class="cat-name" data-fr="Jeux de poursuites" data-en="Chase games">Jeux de poursuites</span>
               <span class="cat-count" id="countPoursuites">50</span>
             </button>
             <button class="category-btn" data-category="ludiques">
               <span class="cat-icon">🎮</span>
-              <span class="cat-name">Jeux ludiques/coopératifs</span>
+              <span class="cat-name" data-fr="Jeux ludiques/coopératifs" data-en="Fun/cooperative games">Jeux ludiques/coopératifs</span>
               <span class="cat-count" id="countLudiques">50</span>
             </button>
             <button class="category-btn" data-category="collectifs">
               <span class="cat-icon">⚽</span>
-              <span class="cat-name">Jeux collectifs</span>
+              <span class="cat-name" data-fr="Jeux collectifs" data-en="Team games">Jeux collectifs</span>
               <span class="cat-count" id="countCollectifs">50</span>
             </button>
             <button class="category-btn" data-category="opposition">
               <span class="cat-icon">🤼</span>
-              <span class="cat-name">Jeux d'opposition</span>
+              <span class="cat-name" data-fr="Jeux d'opposition" data-en="Wrestling games">Jeux d'opposition</span>
               <span class="cat-count" id="countOpposition">50</span>
             </button>
             <button class="category-btn" data-category="duels">
               <span class="cat-icon">⚔️</span>
-              <span class="cat-name">Jeux de duels</span>
+              <span class="cat-name" data-fr="Jeux de duels" data-en="Duel games">Jeux de duels</span>
               <span class="cat-count" id="countDuels">50</span>
             </button>
           </div>
@@ -94,9 +131,9 @@
 
         <!-- Duration Filter -->
         <div class="sidebar-section">
-          <h3 class="sidebar-title">Durée</h3>
+          <h3 class="sidebar-title" data-fr="Durée" data-en="Duration">Durée</h3>
           <div class="filter-chips" id="durationFilter">
-            <button class="chip active" data-duration="all">Toutes</button>
+            <button class="chip active" data-duration="all" data-fr="Toutes" data-en="All">Toutes</button>
             <button class="chip" data-duration="10">≤ 15 min</button>
             <button class="chip" data-duration="15">15-20 min</button>
             <button class="chip" data-duration="20">20-30 min</button>
@@ -106,37 +143,48 @@
 
         <!-- PFEQ Competencies -->
         <div class="sidebar-section">
-          <h3 class="sidebar-title">Compétences PFEQ</h3>
+          <h3 class="sidebar-title" data-fr="Compétences PFEQ" data-en="PFEQ Competencies">Compétences PFEQ</h3>
           <div class="filter-chips" id="pfeqFilter">
-            <button class="chip active" data-pfeq="all">Toutes</button>
-            <button class="chip" data-pfeq="C1">C1 – Agir</button>
-            <button class="chip" data-pfeq="C2">C2 – Interagir</button>
-            <button class="chip" data-pfeq="C3">C3 – Mode de vie</button>
+            <button class="chip active" data-pfeq="all" data-fr="Toutes" data-en="All">Toutes</button>
+            <button class="chip" data-pfeq="C1" data-fr="C1 – Agir" data-en="C1 – Act">C1 – Agir</button>
+            <button class="chip" data-pfeq="C2" data-fr="C2 – Interagir" data-en="C2 – Interact">C2 – Interagir</button>
+            <button class="chip" data-pfeq="C3" data-fr="C3 – Mode de vie" data-en="C3 – Lifestyle">C3 – Mode de vie</button>
+          </div>
+        </div>
+
+        <!-- Cycle Filter -->
+        <div class="sidebar-section">
+          <h3 class="sidebar-title" data-fr="Cycle scolaire" data-en="Grade level">Cycle scolaire</h3>
+          <div class="filter-chips" id="cycleFilter">
+            <button class="chip active" data-cycle="all" data-fr="Tous" data-en="All">Tous</button>
+            <button class="chip" data-cycle="1" data-fr="Cycle 1 (6-8)" data-en="Cycle 1 (6-8)">Cycle 1 (6-8)</button>
+            <button class="chip" data-cycle="2" data-fr="Cycle 2 (8-10)" data-en="Cycle 2 (8-10)">Cycle 2 (8-10)</button>
+            <button class="chip" data-cycle="3" data-fr="Cycle 3 (10-12)" data-en="Cycle 3 (10-12)">Cycle 3 (10-12)</button>
           </div>
         </div>
 
         <!-- Material Filter -->
         <div class="sidebar-section">
-          <h3 class="sidebar-title">Matériel</h3>
+          <h3 class="sidebar-title" data-fr="Matériel" data-en="Equipment">Matériel</h3>
           <div class="filter-chips wrap" id="materialFilter">
-            <button class="chip active" data-material="all">Tout</button>
-            <button class="chip" data-material="ballon">Ballon</button>
-            <button class="chip" data-material="frite">Frite</button>
-            <button class="chip" data-material="cône">Cônes</button>
-            <button class="chip" data-material="foulard">Foulard</button>
-            <button class="chip" data-material="tapis">Tapis</button>
-            <button class="chip" data-material="cerceau">Cerceaux</button>
-            <button class="chip" data-material="dossard">Dossards</button>
-            <button class="chip" data-material="corde">Corde</button>
-            <button class="chip" data-material="raquette">Raquette</button>
+            <button class="chip active" data-material="all" data-fr="Tout" data-en="All">Tout</button>
+            <button class="chip" data-material="ballon" data-fr="Ballon" data-en="Ball">Ballon</button>
+            <button class="chip" data-material="frite" data-fr="Frite" data-en="Noodle">Frite</button>
+            <button class="chip" data-material="cône" data-fr="Cônes" data-en="Cones">Cônes</button>
+            <button class="chip" data-material="foulard" data-fr="Foulard" data-en="Scarf">Foulard</button>
+            <button class="chip" data-material="tapis" data-fr="Tapis" data-en="Mat">Tapis</button>
+            <button class="chip" data-material="cerceau" data-fr="Cerceaux" data-en="Hoops">Cerceaux</button>
+            <button class="chip" data-material="dossard" data-fr="Dossards" data-en="Pinnies">Dossards</button>
+            <button class="chip" data-material="corde" data-fr="Corde" data-en="Rope">Corde</button>
+            <button class="chip" data-material="raquette" data-fr="Raquette" data-en="Racket">Raquette</button>
           </div>
         </div>
 
         <!-- Reset -->
         <div class="sidebar-section">
           <button class="reset-btn" id="resetFilters">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
-            Réinitialiser les filtres
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+            <span data-fr="Réinitialiser les filtres" data-en="Reset filters">Réinitialiser les filtres</span>
           </button>
         </div>
       </div>
@@ -153,17 +201,17 @@
         <div class="stats-right">
           <div class="view-toggle">
             <button class="view-btn active" data-view="grid" title="Grille">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
             </button>
             <button class="view-btn" data-view="list" title="Liste">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
             </button>
           </div>
           <select class="sort-select" id="sortSelect">
-            <option value="id">Tri par numéro</option>
-            <option value="title">Tri alphabétique</option>
-            <option value="duration">Tri par durée</option>
-            <option value="category">Tri par catégorie</option>
+            <option value="id" data-fr="Tri par numéro" data-en="Sort by number">Tri par numéro</option>
+            <option value="title" data-fr="Tri alphabétique" data-en="Sort A-Z">Tri alphabétique</option>
+            <option value="duration" data-fr="Tri par durée" data-en="Sort by duration">Tri par durée</option>
+            <option value="category" data-fr="Tri par catégorie" data-en="Sort by category">Tri par catégorie</option>
           </select>
         </div>
       </div>
@@ -174,9 +222,9 @@
       <!-- Empty State -->
       <div class="empty-state" id="emptyState" style="display:none">
         <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <h3>Aucun jeu trouvé</h3>
-        <p>Essayez de modifier vos critères de recherche ou filtres.</p>
-        <button class="reset-btn" onclick="resetAll()">Réinitialiser tout</button>
+        <h3 data-fr="Aucun jeu trouvé" data-en="No games found">Aucun jeu trouvé</h3>
+        <p data-fr="Essayez de modifier vos critères de recherche ou filtres." data-en="Try adjusting your search criteria or filters.">Essayez de modifier vos critères de recherche ou filtres.</p>
+        <button class="reset-btn" onclick="resetAll()"><span data-fr="Réinitialiser tout" data-en="Reset all">Réinitialiser tout</span></button>
       </div>
 
       <!-- Game Detail Modal -->
@@ -184,7 +232,7 @@
         <div class="modal" id="gameModal">
           <div class="modal-header">
             <button class="modal-close" id="modalClose" aria-label="Fermer">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
           </div>
           <div class="modal-body" id="modalBody"></div>
@@ -194,17 +242,17 @@
       <!-- Favorites View -->
       <div class="favorites-view" id="favoritesView" style="display:none">
         <div class="fav-header">
-          <h2>⭐ Mes favoris</h2>
+          <h2 data-fr="⭐ Mes favoris" data-en="⭐ My favorites">⭐ Mes favoris</h2>
           <button class="back-btn" id="backFromFav">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            Retour
+            <span data-fr="Retour" data-en="Back">Retour</span>
           </button>
         </div>
         <div class="fav-grid" id="favGrid"></div>
         <div class="fav-empty" id="favEmpty" style="display:none">
           <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          <h3>Aucun favori</h3>
-          <p>Cliquez sur l'étoile ⭐ d'un jeu pour l'ajouter à vos favoris.</p>
+          <h3 data-fr="Aucun favori" data-en="No favorites">Aucun favori</h3>
+          <p data-fr="Cliquez sur l'étoile d'un jeu pour l'ajouter à vos favoris." data-en="Click the star on a game to add it to your favorites.">Cliquez sur l'étoile d'un jeu pour l'ajouter à vos favoris.</p>
         </div>
       </div>
     </main>

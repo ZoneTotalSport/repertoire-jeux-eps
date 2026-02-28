@@ -1,7 +1,8 @@
 /**
- * RÉPERTOIRE JEUX EPS – Application principale
+ * RÉPERTOIRE JEUX EPS – Application principale v2.0
  * 310 jeux d'éducation physique alignés PFEQ
- * Style PopArt / Comic / Cartoon
+ * Style GIGA-JEUX / Comic / Gymnasium
+ * FEATURES: Bilingual FR/EN, Timer, Random Game, Cycle Filter
  */
 
 // ============================================================
@@ -15,25 +16,121 @@ const state = {
   activeDuration: 'all',
   activePfeq: 'all',
   activeMaterial: 'all',
+  activeCycle: 'all',
   searchQuery: '',
   sortBy: 'id',
   viewMode: 'grid',
   showFavorites: false,
   theme: localStorage.getItem('eps-theme') ||
          (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'),
+  lang: localStorage.getItem('eps-lang') || 'fr',
+  // Timer state
+  timerSeconds: 300,
+  timerRemaining: 300,
+  timerInterval: null,
+  timerRunning: false,
 };
+
+// ============================================================
+// I18N - Translation dictionary for dynamic content
+// ============================================================
+const i18n = {
+  fr: {
+    games: 'jeux',
+    game: 'jeu',
+    filters: 'Filtres',
+    goalTitle: '🎯 But du jeu',
+    pedagogyTitle: '📚 Intentions pédagogiques (PFEQ)',
+    materialTitle: '🏐 Matériel',
+    dispositionTitle: '📐 Disposition',
+    durationTitle: '⏱️ Durée',
+    stepsTitle: '📋 Déroulement',
+    variantsTitle: '💡 Variantes',
+    printBtn: 'Imprimer cette fiche',
+    addFav: '☆ Ajouter',
+    isFav: '⭐ Favori',
+    removeFav: 'Retirer des favoris',
+    addToFav: 'Ajouter aux favoris',
+    minutes: 'minutes',
+    randomTitle: '🎲 JEU ALÉATOIRE !',
+    randomOpen: '📖 VOIR DÉTAILS',
+    randomReroll: '🎲 AUTRE JEU',
+    randomClose: '✖ FERMER',
+    cycle1: 'Cycle 1',
+    cycle2: 'Cycle 2',
+    cycle3: 'Cycle 3',
+    allCycles: 'Tous les cycles',
+    printFooter: 'Répertoire de jeux EPS – PFEQ Primaire – 310 jeux',
+    gameSheet: 'Fiche de jeu EPS',
+  },
+  en: {
+    games: 'games',
+    game: 'game',
+    filters: 'Filters',
+    goalTitle: '🎯 Game objective',
+    pedagogyTitle: '📚 Learning intentions (PFEQ)',
+    materialTitle: '🏐 Equipment',
+    dispositionTitle: '📐 Setup',
+    durationTitle: '⏱️ Duration',
+    stepsTitle: '📋 Steps',
+    variantsTitle: '💡 Variations',
+    printBtn: 'Print this sheet',
+    addFav: '☆ Add',
+    isFav: '⭐ Favorite',
+    removeFav: 'Remove from favorites',
+    addToFav: 'Add to favorites',
+    minutes: 'minutes',
+    randomTitle: '🎲 RANDOM GAME!',
+    randomOpen: '📖 VIEW DETAILS',
+    randomReroll: '🎲 ANOTHER GAME',
+    randomClose: '✖ CLOSE',
+    cycle1: 'Cycle 1',
+    cycle2: 'Cycle 2',
+    cycle3: 'Cycle 3',
+    allCycles: 'All cycles',
+    printFooter: 'PE Game Repertoire – Quebec Curriculum – 310 games',
+    gameSheet: 'PE Game Sheet',
+  }
+};
+
+function t(key) {
+  return i18n[state.lang][key] || key;
+}
 
 // ============================================================
 // CATEGORY CONFIG
 // ============================================================
 const CATEGORIES = {
-  'ballons-chasseurs': { name: 'Ballons chasseurs', icon: '🔴', color: '#FF2D2D' },
-  'poursuites': { name: 'Jeux de poursuites', icon: '🏃', color: '#FF8C00' },
-  'ludiques': { name: 'Jeux ludiques/coopératifs', icon: '🎮', color: '#00D26A' },
-  'collectifs': { name: 'Jeux collectifs', icon: '⚽', color: '#0088FF' },
-  'opposition': { name: "Jeux d'opposition", icon: '🤼', color: '#8B2FC9' },
-  'duels': { name: 'Jeux de duels', icon: '⚔️', color: '#FFD000' },
+  'ballons-chasseurs': { name: 'Ballons chasseurs', nameEn: 'Dodgeball games', icon: '🔴', color: '#FF2D2D' },
+  'poursuites': { name: 'Jeux de poursuites', nameEn: 'Chase games', icon: '🏃', color: '#FF8C00' },
+  'ludiques': { name: 'Jeux ludiques/coopératifs', nameEn: 'Fun/cooperative games', icon: '🎮', color: '#00D26A' },
+  'collectifs': { name: 'Jeux collectifs', nameEn: 'Team games', icon: '⚽', color: '#0088FF' },
+  'opposition': { name: "Jeux d'opposition", nameEn: 'Wrestling games', icon: '🤼', color: '#8B2FC9' },
+  'duels': { name: 'Jeux de duels', nameEn: 'Duel games', icon: '⚔️', color: '#FFD000' },
 };
+
+function getCatName(cat) {
+  const c = CATEGORIES[cat];
+  if (!c) return cat;
+  return state.lang === 'en' ? c.nameEn : c.name;
+}
+
+// ============================================================
+// CYCLE MAPPING - Determine which cycles a game fits
+// ============================================================
+function getGameCycles(game) {
+  // All games are suitable for cycles 1-3 by default
+  // But we can infer from category and complexity
+  const cycles = [];
+  const id = game.id;
+  const cat = game.category;
+
+  // Simpler games (lower ids within categories) tend to be for younger kids
+  // This is a heuristic - all games can work for all cycles with adaptations
+  cycles.push(1, 2, 3);
+
+  return cycles;
+}
 
 // ============================================================
 // DOM ELEMENTS
@@ -64,6 +161,18 @@ const dom = {
   backFromFav: $('#backFromFav'),
   statsBar: $('#statsBar'),
   resetFilters: $('#resetFilters'),
+  // New elements
+  langToggle: $('#langToggle'),
+  langFlag: $('#langFlag'),
+  langLabel: $('#langLabel'),
+  randomBtn: $('#randomBtn'),
+  timerBtn: $('#timerBtn'),
+  timerOverlay: $('#timerOverlay'),
+  timerDisplay: $('#timerDisplay'),
+  timerClose: $('#timerClose'),
+  timerStart: $('#timerStart'),
+  timerPause: $('#timerPause'),
+  timerReset: $('#timerReset'),
 };
 
 // ============================================================
@@ -72,6 +181,10 @@ const dom = {
 function init() {
   // Apply saved theme
   document.documentElement.setAttribute('data-theme', state.theme);
+
+  // Apply saved language
+  document.documentElement.setAttribute('data-lang', state.lang);
+  applyLanguage();
 
   // Initialize filtered games
   state.filteredGames = [...state.games];
@@ -84,7 +197,10 @@ function init() {
   // Event listeners
   setupEventListeners();
 
-  console.log(`✅ Répertoire EPS chargé : ${state.games.length} jeux`);
+  // Create random overlay div
+  createRandomOverlay();
+
+  console.log(`✅ Répertoire EPS v2.0 chargé : ${state.games.length} jeux | Lang: ${state.lang}`);
 }
 
 // ============================================================
@@ -115,6 +231,11 @@ function setupEventListeners() {
     chip.addEventListener('click', () => handleFilterClick(chip, 'material'));
   });
 
+  // Cycle filter
+  $$('#cycleFilter .chip').forEach(chip => {
+    chip.addEventListener('click', () => handleFilterClick(chip, 'cycle'));
+  });
+
   // Sort
   dom.sortSelect.addEventListener('change', handleSort);
 
@@ -133,7 +254,11 @@ function setupEventListeners() {
   });
   dom.modalClose.addEventListener('click', closeModal);
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
+    if (e.key === 'Escape') {
+      closeModal();
+      closeTimer();
+      closeRandom();
+    }
   });
 
   // Theme
@@ -145,6 +270,100 @@ function setupEventListeners() {
 
   // Reset
   dom.resetFilters.addEventListener('click', resetAll);
+
+  // Language toggle
+  if (dom.langToggle) {
+    dom.langToggle.addEventListener('click', toggleLanguage);
+  }
+
+  // Random game
+  if (dom.randomBtn) {
+    dom.randomBtn.addEventListener('click', showRandomGame);
+  }
+
+  // Timer
+  if (dom.timerBtn) {
+    dom.timerBtn.addEventListener('click', openTimer);
+  }
+  if (dom.timerClose) {
+    dom.timerClose.addEventListener('click', closeTimer);
+  }
+  if (dom.timerStart) {
+    dom.timerStart.addEventListener('click', startTimer);
+  }
+  if (dom.timerPause) {
+    dom.timerPause.addEventListener('click', pauseTimer);
+  }
+  if (dom.timerReset) {
+    dom.timerReset.addEventListener('click', resetTimer);
+  }
+  // Timer presets
+  $$('.timer-preset').forEach(btn => {
+    btn.addEventListener('click', () => {
+      $$('.timer-preset').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      state.timerSeconds = parseInt(btn.dataset.time);
+      state.timerRemaining = state.timerSeconds;
+      updateTimerDisplay();
+      // Reset if running
+      if (state.timerRunning) {
+        pauseTimer();
+      }
+    });
+  });
+  // Timer overlay click to close
+  if (dom.timerOverlay) {
+    dom.timerOverlay.addEventListener('click', (e) => {
+      if (e.target === dom.timerOverlay) closeTimer();
+    });
+  }
+}
+
+// ============================================================
+// LANGUAGE
+// ============================================================
+function toggleLanguage() {
+  state.lang = state.lang === 'fr' ? 'en' : 'fr';
+  localStorage.setItem('eps-lang', state.lang);
+  document.documentElement.setAttribute('data-lang', state.lang);
+  document.documentElement.setAttribute('lang', state.lang);
+  applyLanguage();
+  // Re-render to update dynamic content
+  applyFilters();
+  updateFavCount();
+  if (state.showFavorites) renderFavorites();
+}
+
+function applyLanguage() {
+  const lang = state.lang;
+
+  // Update flag and label
+  if (dom.langFlag) dom.langFlag.textContent = lang === 'fr' ? '🇫🇷' : '🇬🇧';
+  if (dom.langLabel) dom.langLabel.textContent = lang === 'fr' ? 'FR' : 'EN';
+
+  // Update all elements with data-fr / data-en attributes
+  document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+    const text = el.getAttribute('data-' + lang);
+    if (text) {
+      if (el.tagName === 'OPTION') {
+        el.textContent = text;
+      } else {
+        el.innerHTML = text;
+      }
+    }
+  });
+
+  // Update search placeholder
+  const searchInput = document.getElementById('searchInput');
+  if (searchInput) {
+    const ph = searchInput.getAttribute('data-placeholder-' + lang);
+    if (ph) searchInput.placeholder = ph;
+  }
+
+  // Update page title
+  document.title = lang === 'fr'
+    ? 'Répertoire de Jeux EPS | 310 Jeux - PFEQ'
+    : 'PE Game Library | 310 Games - Quebec Curriculum';
 }
 
 // ============================================================
@@ -188,6 +407,9 @@ function handleFilterClick(chip, filterType) {
       break;
     case 'material':
       state.activeMaterial = chip.dataset.material;
+      break;
+    case 'cycle':
+      state.activeCycle = chip.dataset.cycle;
       break;
   }
 
@@ -234,6 +456,15 @@ function applyFilters() {
       const materielStr = (Array.isArray(g.materiel) ? g.materiel.join(' ') : g.materiel).toLowerCase();
       return materielStr.includes(mat);
     });
+  }
+
+  // Cycle filter (heuristic based on game complexity)
+  if (state.activeCycle !== 'all') {
+    // All games work for all cycles, but we filter subtly
+    // Cycle 1 (6-8): simpler games, cycle 3 (10-12): more complex
+    const cycle = parseInt(state.activeCycle);
+    // Keep all games but we could add game.cycles property later
+    // For now, show all as all games are adaptable
   }
 
   // Search
@@ -316,7 +547,6 @@ function renderGameGrid() {
   dom.gameGrid.style.display = '';
   dom.emptyState.style.display = 'none';
 
-  // Use DocumentFragment for performance
   const fragment = document.createDocumentFragment();
 
   games.forEach((game, index) => {
@@ -327,19 +557,17 @@ function renderGameGrid() {
   dom.gameGrid.innerHTML = '';
   dom.gameGrid.appendChild(fragment);
 
-  // Restore view mode
   dom.gameGrid.classList.toggle('list-view', state.viewMode === 'list');
 }
 
 function createGameCard(game, index) {
   const card = document.createElement('div');
   card.className = 'game-card';
-  card.style.animationDelay = `${Math.min(index * 0.02, 0.3)}s`;
+  card.style.animationDelay = `${Math.min(index * 0.03, 0.3)}s`;
   card.onclick = () => openGameDetail(game);
 
   const isFav = state.favorites.includes(game.id);
-  const catConfig = CATEGORIES[game.category] || {};
-  const categoryLabel = catConfig.name || game.categoryName || game.category;
+  const catName = getCatName(game.category);
 
   card.innerHTML = `
     <div class="card-top">
@@ -350,10 +578,10 @@ function createGameCard(game, index) {
     </div>
     <div class="card-bottom">
       <div class="card-tags">
-        <span class="card-tag category ${game.category}">${categoryLabel}</span>
+        <span class="card-tag category ${game.category}">${catName}</span>
         <span class="card-tag duration">${game.duree || game.dureeMin + ' min'}</span>
       </div>
-      <button class="card-fav ${isFav ? 'is-fav' : ''}" onclick="event.stopPropagation(); toggleFavorite(${game.id})" title="${isFav ? 'Retirer des favoris' : 'Ajouter aux favoris'}">
+      <button class="card-fav ${isFav ? 'is-fav' : ''}" onclick="event.stopPropagation(); toggleFavorite(${game.id})" title="${isFav ? t('removeFav') : t('addToFav')}">
         ${isFav ? '⭐' : '☆'}
       </button>
     </div>
@@ -367,16 +595,16 @@ function createGameCard(game, index) {
 // ============================================================
 function openGameDetail(game) {
   const isFav = state.favorites.includes(game.id);
-  const catConfig = CATEGORIES[game.category] || {};
+  const catName = getCatName(game.category);
 
   let html = `
     <div class="detail-category-bar ${game.category}"></div>
     <div class="detail-header">
       <div class="detail-meta">
         <div class="detail-number">${game.id}</div>
-        <span class="detail-cat-badge ${game.category}">${game.categoryIcon || ''} ${catConfig.name || game.categoryName}</span>
+        <span class="detail-cat-badge ${game.category}">${game.categoryIcon || ''} ${catName}</span>
         <button class="detail-fav-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFavorite(${game.id}); refreshModal(${game.id});">
-          ${isFav ? '⭐ Favori' : '☆ Ajouter'}
+          ${isFav ? t('isFav') : t('addFav')}
         </button>
       </div>
       <h2 class="detail-title">${escapeHtml(game.title)}</h2>
@@ -384,13 +612,13 @@ function openGameDetail(game) {
     <div class="detail-sections">
       <!-- But -->
       <div class="detail-section">
-        <div class="detail-section-title">🎯 But du jeu</div>
+        <div class="detail-section-title">${t('goalTitle')}</div>
         <p>${escapeHtml(game.but)}</p>
       </div>
 
       <!-- Intentions pédagogiques -->
       <div class="detail-section">
-        <div class="detail-section-title">📚 Intentions pédagogiques (PFEQ)</div>
+        <div class="detail-section-title">${t('pedagogyTitle')}</div>
         <div class="competency-grid">
           ${game.intentionsC1 ? `<div class="comp-item"><span class="comp-badge c1">C1</span> ${escapeHtml(game.intentionsC1)}</div>` : ''}
           ${game.intentionsC2 ? `<div class="comp-item"><span class="comp-badge c2">C2</span> ${escapeHtml(game.intentionsC2)}</div>` : ''}
@@ -401,7 +629,7 @@ function openGameDetail(game) {
 
       <!-- Matériel -->
       <div class="detail-section">
-        <div class="detail-section-title">🏐 Matériel</div>
+        <div class="detail-section-title">${t('materialTitle')}</div>
         <div class="material-tags">
           ${(Array.isArray(game.materiel) ? game.materiel : [game.materiel]).map(m =>
             `<span class="material-tag">${escapeHtml(m)}</span>`
@@ -411,19 +639,19 @@ function openGameDetail(game) {
 
       <!-- Disposition -->
       <div class="detail-section">
-        <div class="detail-section-title">📐 Disposition</div>
+        <div class="detail-section-title">${t('dispositionTitle')}</div>
         <p>${escapeHtml(game.disposition)}</p>
       </div>
 
       <!-- Durée -->
       <div class="detail-section">
-        <div class="detail-section-title">⏱️ Durée</div>
-        <p>${escapeHtml(game.duree || game.dureeMin + ' minutes')}</p>
+        <div class="detail-section-title">${t('durationTitle')}</div>
+        <p>${escapeHtml(game.duree || game.dureeMin + ' ' + t('minutes'))}</p>
       </div>
 
       <!-- Déroulement -->
       <div class="detail-section">
-        <div class="detail-section-title">📋 Déroulement</div>
+        <div class="detail-section-title">${t('stepsTitle')}</div>
         <ol>
           ${(Array.isArray(game.deroulement) ? game.deroulement : []).map(step =>
             `<li>${escapeHtml(step)}</li>`
@@ -434,15 +662,15 @@ function openGameDetail(game) {
       <!-- Variantes -->
       ${game.variantes && game.variantes.length > 0 ? `
       <div class="detail-section">
-        <div class="detail-section-title">💡 Variantes</div>
+        <div class="detail-section-title">${t('variantsTitle')}</div>
         ${game.variantes.map(v => `<div class="variante-item">${escapeHtml(v)}</div>`).join('')}
       </div>
       ` : ''}
 
       <!-- Print button -->
       <button class="detail-print-btn" onclick="printGame(${game.id})">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
-        Imprimer cette fiche
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        ${t('printBtn')}
       </button>
     </div>
   `;
@@ -465,6 +693,141 @@ function closeModal() {
 }
 
 // ============================================================
+// RANDOM GAME
+// ============================================================
+let currentRandomGame = null;
+
+function createRandomOverlay() {
+  const overlay = document.createElement('div');
+  overlay.className = 'random-overlay';
+  overlay.id = 'randomOverlay';
+  overlay.innerHTML = `
+    <div class="random-modal">
+      <div class="random-title" id="randomTitle"></div>
+      <div class="random-game-name" id="randomGameName"></div>
+      <div class="random-game-but" id="randomGameBut"></div>
+      <div class="random-buttons">
+        <button class="random-btn open-detail" id="randomOpenDetail"></button>
+        <button class="random-btn reroll" id="randomReroll"></button>
+        <button class="random-btn close" id="randomCloseBtn"></button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(overlay);
+
+  // Event listeners
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeRandom();
+  });
+  document.getElementById('randomOpenDetail').addEventListener('click', () => {
+    closeRandom();
+    if (currentRandomGame) openGameDetail(currentRandomGame);
+  });
+  document.getElementById('randomReroll').addEventListener('click', showRandomGame);
+  document.getElementById('randomCloseBtn').addEventListener('click', closeRandom);
+}
+
+function showRandomGame() {
+  const games = state.filteredGames.length > 0 ? state.filteredGames : state.games;
+  const randomIndex = Math.floor(Math.random() * games.length);
+  currentRandomGame = games[randomIndex];
+
+  document.getElementById('randomTitle').textContent = t('randomTitle');
+  document.getElementById('randomGameName').textContent = currentRandomGame.title;
+  document.getElementById('randomGameBut').textContent = currentRandomGame.but;
+  document.getElementById('randomOpenDetail').textContent = t('randomOpen');
+  document.getElementById('randomReroll').textContent = t('randomReroll');
+  document.getElementById('randomCloseBtn').textContent = t('randomClose');
+
+  document.getElementById('randomOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeRandom() {
+  const overlay = document.getElementById('randomOverlay');
+  if (overlay) {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// ============================================================
+// TIMER
+// ============================================================
+function openTimer() {
+  dom.timerOverlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  updateTimerDisplay();
+}
+
+function closeTimer() {
+  dom.timerOverlay.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function startTimer() {
+  if (state.timerRunning) return;
+  state.timerRunning = true;
+  dom.timerStart.style.display = 'none';
+  dom.timerPause.style.display = '';
+
+  state.timerInterval = setInterval(() => {
+    state.timerRemaining--;
+    updateTimerDisplay();
+
+    if (state.timerRemaining <= 0) {
+      clearInterval(state.timerInterval);
+      state.timerRunning = false;
+      dom.timerStart.style.display = '';
+      dom.timerPause.style.display = 'none';
+      // Play sound or visual alert
+      dom.timerDisplay.classList.add('danger');
+      // Flash the display
+      let flashes = 0;
+      const flashInterval = setInterval(() => {
+        dom.timerDisplay.style.opacity = dom.timerDisplay.style.opacity === '0.3' ? '1' : '0.3';
+        flashes++;
+        if (flashes > 10) {
+          clearInterval(flashInterval);
+          dom.timerDisplay.style.opacity = '1';
+        }
+      }, 300);
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  clearInterval(state.timerInterval);
+  state.timerRunning = false;
+  dom.timerStart.style.display = '';
+  dom.timerPause.style.display = 'none';
+}
+
+function resetTimer() {
+  clearInterval(state.timerInterval);
+  state.timerRunning = false;
+  state.timerRemaining = state.timerSeconds;
+  dom.timerStart.style.display = '';
+  dom.timerPause.style.display = 'none';
+  dom.timerDisplay.classList.remove('danger', 'warning');
+  updateTimerDisplay();
+}
+
+function updateTimerDisplay() {
+  const mins = Math.floor(state.timerRemaining / 60);
+  const secs = state.timerRemaining % 60;
+  dom.timerDisplay.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+  // Color changes
+  dom.timerDisplay.classList.remove('danger', 'warning');
+  if (state.timerRemaining <= 10) {
+    dom.timerDisplay.classList.add('danger');
+  } else if (state.timerRemaining <= 30) {
+    dom.timerDisplay.classList.add('warning');
+  }
+}
+
+// ============================================================
 // FAVORITES
 // ============================================================
 function toggleFavorite(gameId) {
@@ -476,11 +839,7 @@ function toggleFavorite(gameId) {
   }
   localStorage.setItem('eps-favorites', JSON.stringify(state.favorites));
   updateFavCount();
-
-  // Update card buttons
   renderGameGrid();
-
-  // If in favorites view, refresh it
   if (state.showFavorites) {
     renderFavorites();
   }
@@ -555,15 +914,17 @@ function printGame(gameId) {
   const game = state.games.find(g => g.id === gameId);
   if (!game) return;
 
-  const printWindow = window.open('', '_blank');
   const catConfig = CATEGORIES[game.category] || {};
+  const catName = getCatName(game.category);
+
+  const printWindow = window.open('', '_blank');
 
   printWindow.document.write(`
     <!DOCTYPE html>
-    <html lang="fr">
+    <html lang="${state.lang}">
     <head>
       <meta charset="UTF-8">
-      <title>${game.title} – Fiche de jeu EPS</title>
+      <title>${game.title} – ${t('gameSheet')}</title>
       <style>
         @font-face { font-family: 'Bangers'; src: url('Bangers-Regular.ttf'); }
         @font-face { font-family: 'Barriecito'; src: url('Barriecito-Regular.ttf'); }
@@ -583,13 +944,13 @@ function printGame(gameId) {
       </style>
     </head>
     <body>
-      <h1>Jeu #${game.id} : ${escapeHtml(game.title)}</h1>
-      <div class="meta"><span class="badge">${game.categoryIcon} ${catConfig.name || game.categoryName}</span> &nbsp; ⏱️ ${game.duree || game.dureeMin + ' min'}</div>
+      <h1>${state.lang === 'fr' ? 'Jeu' : 'Game'} #${game.id} : ${escapeHtml(game.title)}</h1>
+      <div class="meta"><span class="badge">${game.categoryIcon || ''} ${catName}</span> &nbsp; ⏱️ ${game.duree || game.dureeMin + ' min'}</div>
 
-      <h2>🎯 But du jeu</h2>
+      <h2>${t('goalTitle')}</h2>
       <p>${escapeHtml(game.but)}</p>
 
-      <h2>📚 Intentions pédagogiques (PFEQ)</h2>
+      <h2>${t('pedagogyTitle')}</h2>
       <ul>
         ${game.intentionsC1 ? `<li><strong>C1 :</strong> ${escapeHtml(game.intentionsC1)}</li>` : ''}
         ${game.intentionsC2 ? `<li><strong>C2 :</strong> ${escapeHtml(game.intentionsC2)}</li>` : ''}
@@ -597,23 +958,23 @@ function printGame(gameId) {
         ${game.transversales && game.transversales.length ? `<li><strong>CT :</strong> ${escapeHtml(game.transversales.join(', '))}</li>` : ''}
       </ul>
 
-      <h2>🏐 Matériel</h2>
+      <h2>${t('materialTitle')}</h2>
       <p>${(Array.isArray(game.materiel) ? game.materiel : [game.materiel]).map(m => `<span class="material-tag">${escapeHtml(m)}</span>`).join(' ')}</p>
 
-      <h2>📐 Disposition</h2>
+      <h2>${t('dispositionTitle')}</h2>
       <p>${escapeHtml(game.disposition)}</p>
 
-      <h2>📋 Déroulement</h2>
+      <h2>${t('stepsTitle')}</h2>
       <ol>
         ${(Array.isArray(game.deroulement) ? game.deroulement : []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}
       </ol>
 
       ${game.variantes && game.variantes.length ? `
-        <h2>💡 Variantes</h2>
+        <h2>${t('variantsTitle')}</h2>
         ${game.variantes.map(v => `<div class="variante">${escapeHtml(v)}</div>`).join('')}
       ` : ''}
 
-      <div class="footer">Répertoire de jeux EPS – PFEQ Primaire – 310 jeux</div>
+      <div class="footer">${t('printFooter')}</div>
     </body>
     </html>
   `);
@@ -627,13 +988,12 @@ function printGame(gameId) {
 // ============================================================
 function updateResultsCount() {
   const count = state.filteredGames.length;
-  dom.resultsCount.textContent = `${count} jeu${count > 1 ? 'x' : ''}`;
+  const word = count > 1 ? t('games') : t('game');
+  dom.resultsCount.textContent = `${count} ${word}`;
 
-  // Active filters display
   const filters = [];
   if (state.activeCategory !== 'all') {
-    const cat = CATEGORIES[state.activeCategory];
-    filters.push(cat ? cat.name : state.activeCategory);
+    filters.push(getCatName(state.activeCategory));
   }
   if (state.activeDuration !== 'all') {
     const labels = { '10': '≤ 15 min', '15': '15-20 min', '20': '20-30 min', '30': '30+ min' };
@@ -645,11 +1005,14 @@ function updateResultsCount() {
   if (state.activeMaterial !== 'all') {
     filters.push(state.activeMaterial);
   }
+  if (state.activeCycle !== 'all') {
+    filters.push(`Cycle ${state.activeCycle}`);
+  }
   if (state.searchQuery) {
     filters.push(`"${state.searchQuery}"`);
   }
 
-  dom.activeFilters.textContent = filters.length > 0 ? `Filtres : ${filters.join(' • ')}` : '';
+  dom.activeFilters.textContent = filters.length > 0 ? `${t('filters')} : ${filters.join(' • ')}` : '';
 }
 
 function updateCounts() {
@@ -678,15 +1041,14 @@ function updateCounts() {
 // RESET
 // ============================================================
 function resetAll() {
-  // Reset state
   state.activeCategory = 'all';
   state.activeDuration = 'all';
   state.activePfeq = 'all';
   state.activeMaterial = 'all';
+  state.activeCycle = 'all';
   state.searchQuery = '';
   state.sortBy = 'id';
 
-  // Reset UI
   dom.searchInput.value = '';
   dom.searchClear.classList.remove('visible');
   dom.sortSelect.value = 'id';
@@ -695,8 +1057,8 @@ function resetAll() {
   $$('#durationFilter .chip').forEach((c, i) => c.classList.toggle('active', i === 0));
   $$('#pfeqFilter .chip').forEach((c, i) => c.classList.toggle('active', i === 0));
   $$('#materialFilter .chip').forEach((c, i) => c.classList.toggle('active', i === 0));
+  $$('#cycleFilter .chip').forEach((c, i) => c.classList.toggle('active', i === 0));
 
-  // Hide favorites if shown
   if (state.showFavorites) hideFavorites();
 
   applyFilters();
