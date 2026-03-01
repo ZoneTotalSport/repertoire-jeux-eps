@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GIGA-JEUX EPS | 310 Jeux d'Éducation Physique</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Barriecito&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    /* ============ RESET ============ */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    /* ============ VARIABLES ============ */
+    :root {
+      --cyan: #00DFFF;
+      --lime: #8DFF00;
+      --yellow: #FFFF00;
+      --dark: #1A1A2E;
+      --darker: #0F0F1A;
+      --white: #FFFFFF;
+      --orange: #FF8C00;
+      --red: #FF2D2D;
+      --blue: #0088FF;
+      --green: #00D26A;
+      --purple: #8B2FC9;
+    }
+
+    /* ============ BODY ============ */
+    body {
+      font-family: 'Nunito', -apple-system, sans-serif;
+      background: var(--darker);
+      color: var(--white);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ============ ANIMATED BG ============ */
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .bg-pattern .circle {
+      position: absolute;
+      border-radius: 50%;
+      opacity: 0.08;
+      animation: floatCircle 20s infinite ease-in-out;
+    }
+    .bg-pattern .circle:nth-child(1) { width: 600px; height: 600px; background: var(--cyan); top: -200px; left: -100px; animation-delay: 0s; }
+    .bg-pattern .circle:nth-child(2) { width: 400px; height: 400px; background: var(--lime); top: 50%; right: -100px; animation-delay: -5s; }
+    .bg-pattern .circle:nth-child(3) { width: 500px; height: 500px; background: var(--yellow); bottom: -150px; left: 30%; animation-delay: -10s; }
+    .bg-pattern .circle:nth-child(4) { width: 300px; height: 300px; background: var(--purple); top: 30%; left: 50%; animation-delay: -15s; }
+
+    @keyframes floatCircle {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -40px) scale(1.1); }
+      50% { transform: translate(-20px, 30px) scale(0.95); }
+      75% { transform: translate(40px, 20px) scale(1.05); }
+    }
+
+    /* ============ CONTAINER ============ */
+    .landing {
+      position: relative;
+      z-index: 1;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+
+    /* ============ HERO ============ */
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--cyan), var(--lime));
+      color: var(--dark);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      padding: 6px 24px;
+      border-radius: 50px;
+      margin-bottom: 20px;
+      animation: pulseGlow 2s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 20px rgba(0, 223, 255, 0.3); }
+      50% { box-shadow: 0 0 40px rgba(0, 223, 255, 0.6), 0 0 60px rgba(141, 255, 0, 0.3); }
+    }
+
+    .hero-title {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(3rem, 8vw, 6rem);
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      line-height: 1;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--lime) 40%, var(--yellow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.5));
+    }
+
+    .hero-subtitle {
+      font-family: 'Barriecito', cursive;
+      font-size: clamp(1.3rem, 3vw, 2rem);
+      color: var(--yellow);
+      margin-bottom: 12px;
+      text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
+    }
+
+    .hero-tagline {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: rgba(255,255,255,0.75);
+      max-width: 600px;
+      margin: 0 auto 40px;
+      line-height: 1.6;
+    }
+
+    .hero-tagline strong {
+      color: var(--cyan);
+    }
+
+    /* ============ CTA BUTTON ============ */
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, var(--cyan), var(--lime));
+      color: var(--dark);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 48px;
+      border-radius: 16px;
+      border: 4px solid var(--dark);
+      box-shadow: 6px 6px 0px var(--dark), 0 0 30px rgba(0, 223, 255, 0.3);
+      transition: all 0.2s;
+      cursor: pointer;
+      animation: bounceIn 1s ease-out 0.5s both;
+    }
+
+    .cta-btn:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0px var(--dark), 0 0 50px rgba(0, 223, 255, 0.5);
+    }
+
+    .cta-btn:active {
+      transform: translate(2px, 2px);
+      box-shadow: 3px 3px 0px var(--dark);
+    }
+
+    .cta-btn .cta-icon {
+      font-size: 2.2rem;
+    }
+
+    @keyframes bounceIn {
+      0% { opacity: 0; transform: scale(0.5) translateY(40px); }
+      60% { transform: scale(1.05) translateY(-5px); }
+      100% { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    /* ============ STATS BAR ============ */
+    .stats-row {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      margin: 50px 0 60px;
+    }
+
+    .stat-card {
+      background: rgba(255,255,255,0.06);
+      border: 3px solid rgba(255,255,255,0.1);
+      border-radius: 16px;
+      padding: 24px 28px;
+      text-align: center;
+      min-width: 140px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.3s, border-color 0.3s;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--cyan);
+    }
+
+    .stat-number {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 2px;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--cyan), var(--yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-top: 4px;
+    }
+
+    /* ============ FEATURES ============ */
+    .features-title {
+      text-align: center;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 2.2rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 40px;
+      color: var(--white);
+    }
+
+    .features-title span {
+      background: linear-gradient(135deg, var(--lime), var(--yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 60px;
+    }
+
+    .feature-card {
+      background: rgba(255,255,255,0.05);
+      border: 3px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .feature-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--cyan), var(--lime), var(--yellow));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--cyan);
+      box-shadow: 0 10px 40px rgba(0, 223, 255, 0.15);
+    }
+
+    .feature-card:hover::before {
+      opacity: 1;
+    }
+
+    .feature-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .feature-name {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      color: var(--cyan);
+    }
+
+    .feature-desc {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.65);
+      line-height: 1.6;
+    }
+
+    /* ============ CATEGORIES ============ */
+    .categories-section {
+      margin-bottom: 60px;
+    }
+
+    .cat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+    }
+
+    .cat-card {
+      background: rgba(255,255,255,0.05);
+      border: 3px solid;
+      border-radius: 16px;
+      padding: 20px 12px;
+      text-align: center;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: default;
+    }
+
+    .cat-card:hover {
+      transform: translateY(-4px) scale(1.03);
+    }
+
+    .cat-card.dodgeball { border-color: var(--red); }
+    .cat-card.chase { border-color: var(--orange); }
+    .cat-card.fun { border-color: var(--green); }
+    .cat-card.team { border-color: var(--blue); }
+    .cat-card.wrestling { border-color: var(--purple); }
+    .cat-card.duel { border-color: var(--yellow); }
+
+    .cat-card:hover.dodgeball { box-shadow: 0 8px 30px rgba(255, 45, 45, 0.25); }
+    .cat-card:hover.chase { box-shadow: 0 8px 30px rgba(255, 140, 0, 0.25); }
+    .cat-card:hover.fun { box-shadow: 0 8px 30px rgba(0, 210, 106, 0.25); }
+    .cat-card:hover.team { box-shadow: 0 8px 30px rgba(0, 136, 255, 0.25); }
+    .cat-card:hover.wrestling { box-shadow: 0 8px 30px rgba(139, 47, 201, 0.25); }
+    .cat-card:hover.duel { box-shadow: 0 8px 30px rgba(255, 208, 0, 0.25); }
+
+    .cat-icon { font-size: 2.4rem; display: block; margin-bottom: 8px; }
+    .cat-name {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .cat-count {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+    }
+
+    /* ============ PFEQ SECTION ============ */
+    .pfeq-section {
+      background: rgba(255,255,255,0.04);
+      border: 3px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      padding: 40px 32px;
+      margin-bottom: 60px;
+      text-align: center;
+    }
+
+    .pfeq-title {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .pfeq-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .pfeq-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: 12px;
+      font-family: 'Bangers', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 1px;
+      border: 2px solid;
+    }
+
+    .pfeq-badge.c1 { background: rgba(0, 223, 255, 0.15); border-color: var(--cyan); color: var(--cyan); }
+    .pfeq-badge.c2 { background: rgba(141, 255, 0, 0.15); border-color: var(--lime); color: var(--lime); }
+    .pfeq-badge.c3 { background: rgba(255, 255, 0, 0.15); border-color: var(--yellow); color: var(--yellow); }
+
+    .pfeq-desc {
+      font-size: 1rem;
+      color: rgba(255,255,255,0.6);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+
+    /* ============ SECOND CTA ============ */
+    .cta-section {
+      text-align: center;
+      padding: 40px 0 60px;
+    }
+
+    .cta-section .cta-subtitle {
+      font-family: 'Barriecito', cursive;
+      font-size: 1.4rem;
+      color: var(--yellow);
+      margin-bottom: 20px;
+    }
+
+    /* ============ FOOTER ============ */
+    .landing-footer {
+      text-align: center;
+      padding: 24px 0 40px;
+      border-top: 2px solid rgba(255,255,255,0.08);
+    }
+
+    .footer-logo {
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, var(--cyan), var(--lime));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 8px;
+    }
+
+    .footer-text {
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+    }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 600px) {
+      .hero { padding: 40px 0 20px; }
+      .cta-btn { font-size: 1.4rem; padding: 14px 32px; }
+      .stat-card { min-width: 110px; padding: 16px 12px; }
+      .stat-number { font-size: 2.2rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .cat-grid { grid-template-columns: repeat(2, 1fr); }
+      .pfeq-section { padding: 24px 16px; }
+    }
+
+    /* ============ SCROLL ANIMATIONS ============ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated background -->
+  <div class="bg-pattern">
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+    <div class="circle"></div>
+  </div>
+
+  <div class="landing">
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero">
+      <div class="hero-badge">Zone Total Sport</div>
+      <h1 class="hero-title">GIGA-JEUX EPS</h1>
+      <p class="hero-subtitle">Le plus gros r&eacute;pertoire de jeux d'&eacute;ducation physique au Qu&eacute;bec !</p>
+      <p class="hero-tagline">
+        <strong>310 jeux</strong> align&eacute;s avec le Programme de formation de l'&eacute;cole qu&eacute;b&eacute;coise (PFEQ), pr&ecirc;ts &agrave; utiliser dans ton gymnase. Filtre par cat&eacute;gorie, dur&eacute;e, comp&eacute;tence ou mat&eacute;riel !
+      </p>
+      <a href="https://jeux.zonetotalsport.ca" class="cta-btn" target="_blank" rel="noopener">
+        <span class="cta-icon">🎮</span>
+        EXPLORER LES 310 JEUX
+      </a>
+    </section>
+
+    <!-- ===================== STATS ===================== -->
+    <section class="stats-row fade-up">
+      <div class="stat-card">
+        <div class="stat-number">310</div>
+        <div class="stat-label">Jeux</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">6</div>
+        <div class="stat-label">Cat&eacute;gories</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Comp&eacute;tences PFEQ</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">FR/EN</div>
+        <div class="stat-label">Bilingue</div>
+      </div>
+    </section>
+
+    <!-- ===================== FEATURES ===================== -->
+    <section class="fade-up">
+      <h2 class="features-title">Pourquoi <span>GIGA-JEUX</span> ?</h2>
+      <div class="features-grid">
+
+        <div class="feature-card">
+          <span class="feature-icon">📋</span>
+          <div class="feature-name">Fiches compl&egrave;tes</div>
+          <div class="feature-desc">Chaque jeu inclut le but, le d&eacute;roulement &eacute;tape par &eacute;tape, les variantes, le mat&eacute;riel et la disposition.</div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🎯</span>
+          <div class="feature-name">Align&eacute; PFEQ</div>
+          <div class="feature-desc">Intentions p&eacute;dagogiques li&eacute;es aux 3 comp&eacute;tences du primaire (C1, C2, C3) et comp&eacute;tences transversales.</div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🖥️</span>
+          <div class="feature-name">Tableau blanc</div>
+          <div class="feature-desc">Interface optimis&eacute;e pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !</div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">⏱️</span>
+          <div class="feature-name">Minuterie int&eacute;gr&eacute;e</div>
+          <div class="feature-desc">Chrono int&eacute;gr&eacute; avec pr&eacute;r&eacute;glages (1, 2, 5, 10, 15, 20 min) pour g&eacute;rer tes activit&eacute;s.</div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🎲</span>
+          <div class="feature-name">Jeu al&eacute;atoire</div>
+          <div class="feature-desc">Un bouton pour piger un jeu au hasard. Parfait quand tu manques d'inspiration !</div>
+        </div>
+
+        <div class="feature-card">
+          <span class="feature-icon">🌐</span>
+          <div class="feature-name">Bilingue FR / EN</div>
+          <div class="feature-desc">Bascule entre fran&ccedil;ais et anglais en un clic. Id&eacute;al pour les &eacute;coles anglophones du Qu&eacute;bec.</div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ===================== CATEGORIES ===================== -->
+    <section class="categories-section fade-up">
+      <h2 class="features-title">6 <span>Cat&eacute;gories</span> de jeux</h2>
+      <div class="cat-grid">
+        <div class="cat-card dodgeball">
+          <span class="cat-icon">🔴</span>
+          <div class="cat-name">Ballons chasseurs</div>
+          <div class="cat-count">Dodgeball games</div>
+        </div>
+        <div class="cat-card chase">
+          <span class="cat-icon">🏃</span>
+          <div class="cat-name">Poursuites</div>
+          <div class="cat-count">Chase games</div>
+        </div>
+        <div class="cat-card fun">
+          <span class="cat-icon">🎮</span>
+          <div class="cat-name">Ludiques / Coop</div>
+          <div class="cat-count">Fun / Cooperative</div>
+        </div>
+        <div class="cat-card team">
+          <span class="cat-icon">⚽</span>
+          <div class="cat-name">Collectifs</div>
+          <div class="cat-count">Team games</div>
+        </div>
+        <div class="cat-card wrestling">
+          <span class="cat-icon">🤼</span>
+          <div class="cat-name">Opposition</div>
+          <div class="cat-count">Wrestling games</div>
+        </div>
+        <div class="cat-card duel">
+          <span class="cat-icon">⚔️</span>
+          <div class="cat-name">Duels</div>
+          <div class="cat-count">Duel games</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== PFEQ ===================== -->
+    <section class="pfeq-section fade-up">
+      <h2 class="pfeq-title">🏫 Conforme au Programme PFEQ</h2>
+      <div class="pfeq-badges">
+        <span class="pfeq-badge c1">C1 — Agir</span>
+        <span class="pfeq-badge c2">C2 — Interagir</span>
+        <span class="pfeq-badge c3">C3 — Adopter</span>
+      </div>
+      <p class="pfeq-desc">
+        Chaque jeu est li&eacute; aux comp&eacute;tences du Programme de formation de l'&eacute;cole qu&eacute;b&eacute;coise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif).
+      </p>
+    </section>
+
+    <!-- ===================== CTA FINAL ===================== -->
+    <section class="cta-section fade-up">
+      <p class="cta-subtitle">Pr&ecirc;t &agrave; transformer tes cours d'&eacute;ducation physique ?</p>
+      <a href="https://jeux.zonetotalsport.ca" class="cta-btn" target="_blank" rel="noopener">
+        <span class="cta-icon">🚀</span>
+        C'EST PARTI !
+      </a>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer class="landing-footer">
+      <div class="footer-logo">ZONE TOTAL SPORT</div>
+      <div class="footer-text">R&eacute;pertoire de 310 jeux d'&eacute;ducation physique &bull; PFEQ Primaire &bull; Qu&eacute;bec</div>
+    </footer>
+
+  </div>
+
+  <!-- Scroll animation script -->
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
