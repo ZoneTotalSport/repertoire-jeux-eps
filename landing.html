@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>GIGA-JEUX EPS | 310 Jeux d'Éducation Physique</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Barriecito&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -23,31 +24,34 @@
       --purple: #8B2FC9;
     }
 
-    body {
-      font-family: 'Nunito', -apple-system, sans-serif;
-      background: var(--darker);
-      color: var(--white);
-      overflow-x: hidden;
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
     }
 
-    /* ===== BG — absolute instead of fixed for iframe ===== */
-    .bg-pattern {
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
+    body {
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background-color: #0F0F1A;
+      color: #FFFFFF;
+      overflow-x: hidden;
+      position: relative;
     }
-    .bg-pattern .circle {
-      position: absolute;
+
+    /* ===== BG circles ===== */
+    .bg-circle {
+      position: fixed;
       border-radius: 50%;
       opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
     }
-    .bg-pattern .circle:nth-child(1) { width: 500px; height: 500px; background: var(--cyan); top: -100px; left: -80px; }
-    .bg-pattern .circle:nth-child(2) { width: 400px; height: 400px; background: var(--lime); top: 600px; right: -100px; }
-    .bg-pattern .circle:nth-child(3) { width: 450px; height: 450px; background: var(--yellow); top: 1400px; left: 20%; }
-    .bg-pattern .circle:nth-child(4) { width: 350px; height: 350px; background: var(--purple); top: 2200px; right: 10%; }
+    .bg-circle.c1 { width: 500px; height: 500px; background: #00DFFF; top: -100px; left: -80px; }
+    .bg-circle.c2 { width: 400px; height: 400px; background: #8DFF00; top: 600px; right: -100px; }
+    .bg-circle.c3 { width: 450px; height: 450px; background: #FFFF00; top: 1400px; left: 20%; }
+    .bg-circle.c4 { width: 350px; height: 350px; background: #8B2FC9; top: 2200px; right: 10%; }
 
+    /* ===== MAIN CONTAINER ===== */
     .landing {
       position: relative;
       z-index: 1;
@@ -57,16 +61,13 @@
     }
 
     /* ===== HERO ===== */
-    .hero {
-      text-align: center;
-      padding: 50px 0 30px;
-    }
+    .hero { text-align: center; padding: 50px 0 30px; }
 
     .hero-badge {
       display: inline-block;
-      background: linear-gradient(135deg, var(--cyan), var(--lime));
-      color: var(--dark);
-      font-family: 'Bangers', Impact, sans-serif;
+      background: linear-gradient(135deg, #00DFFF, #8DFF00);
+      color: #1A1A2E;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 1rem;
       letter-spacing: 3px;
       text-transform: uppercase;
@@ -77,13 +78,16 @@
     }
 
     .hero-title {
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: clamp(3rem, 8vw, 6rem);
       text-transform: uppercase;
       letter-spacing: 4px;
       line-height: 1;
       margin-bottom: 8px;
-      background: linear-gradient(135deg, var(--cyan) 0%, var(--lime) 40%, var(--yellow) 100%);
+      /* Fallback: bright cyan color visible on dark bg */
+      color: #00DFFF;
+      /* Gradient text for browsers that support it */
+      background: linear-gradient(135deg, #00DFFF 0%, #8DFF00 40%, #FFFF00 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -91,9 +95,9 @@
     }
 
     .hero-subtitle {
-      font-family: 'Barriecito', cursive;
+      font-family: 'Barriecito', 'Comic Sans MS', cursive;
       font-size: clamp(1.2rem, 3vw, 1.8rem);
-      color: var(--yellow);
+      color: #FFFF00;
       margin-bottom: 12px;
       text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
     }
@@ -106,34 +110,30 @@
       margin: 0 auto 36px;
       line-height: 1.6;
     }
-    .hero-tagline strong { color: var(--cyan); }
+    .hero-tagline strong { color: #00DFFF; }
 
     /* ===== CTA ===== */
     .cta-btn {
       display: inline-flex;
       align-items: center;
       gap: 12px;
-      background: linear-gradient(135deg, var(--cyan), var(--lime));
-      color: var(--dark);
-      font-family: 'Bangers', Impact, sans-serif;
+      background: linear-gradient(135deg, #00DFFF, #8DFF00);
+      color: #1A1A2E;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 1.7rem;
       letter-spacing: 3px;
       text-transform: uppercase;
       text-decoration: none;
       padding: 16px 44px;
       border-radius: 16px;
-      border: 4px solid var(--dark);
-      box-shadow: 6px 6px 0px var(--dark), 0 0 30px rgba(0, 223, 255, 0.3);
+      border: 4px solid #1A1A2E;
+      box-shadow: 6px 6px 0px #1A1A2E, 0 0 30px rgba(0, 223, 255, 0.3);
       transition: all 0.2s;
       cursor: pointer;
     }
     .cta-btn:hover {
       transform: translate(-3px, -3px);
-      box-shadow: 9px 9px 0px var(--dark), 0 0 50px rgba(0, 223, 255, 0.5);
-    }
-    .cta-btn:active {
-      transform: translate(2px, 2px);
-      box-shadow: 3px 3px 0px var(--dark);
+      box-shadow: 9px 9px 0px #1A1A2E, 0 0 50px rgba(0, 223, 255, 0.5);
     }
     .cta-btn .cta-icon { font-size: 2rem; }
 
@@ -154,16 +154,14 @@
       min-width: 130px;
       transition: transform 0.3s, border-color 0.3s;
     }
-    .stat-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--cyan);
-    }
+    .stat-card:hover { transform: translateY(-4px); border-color: #00DFFF; }
     .stat-number {
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 2.6rem;
       letter-spacing: 2px;
       line-height: 1;
-      background: linear-gradient(135deg, var(--cyan), var(--yellow));
+      color: #00DFFF;
+      background: linear-gradient(135deg, #00DFFF, #FFFF00);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -180,15 +178,16 @@
     /* ===== SECTION TITLE ===== */
     .section-title {
       text-align: center;
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 2rem;
       text-transform: uppercase;
       letter-spacing: 3px;
       margin-bottom: 32px;
-      color: var(--white);
+      color: #FFFFFF;
     }
     .section-title span {
-      background: linear-gradient(135deg, var(--lime), var(--yellow));
+      color: #8DFF00;
+      background: linear-gradient(135deg, #8DFF00, #FFFF00);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -216,24 +215,24 @@
       position: absolute;
       top: 0; left: 0; right: 0;
       height: 4px;
-      background: linear-gradient(90deg, var(--cyan), var(--lime), var(--yellow));
+      background: linear-gradient(90deg, #00DFFF, #8DFF00, #FFFF00);
       opacity: 0;
       transition: opacity 0.3s;
     }
     .feature-card:hover {
       transform: translateY(-4px);
-      border-color: var(--cyan);
+      border-color: #00DFFF;
       box-shadow: 0 8px 30px rgba(0, 223, 255, 0.15);
     }
     .feature-card:hover::before { opacity: 1; }
     .feature-icon { font-size: 2.6rem; margin-bottom: 12px; display: block; }
     .feature-name {
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 1.15rem;
       letter-spacing: 2px;
       text-transform: uppercase;
       margin-bottom: 8px;
-      color: var(--cyan);
+      color: #00DFFF;
     }
     .feature-desc {
       font-size: 0.9rem;
@@ -257,12 +256,12 @@
       transition: transform 0.3s, box-shadow 0.3s;
     }
     .cat-card:hover { transform: translateY(-4px) scale(1.03); }
-    .cat-card.dodgeball { border-color: var(--red); }
-    .cat-card.chase { border-color: var(--orange); }
-    .cat-card.fun { border-color: var(--green); }
-    .cat-card.team { border-color: var(--blue); }
-    .cat-card.wrestling { border-color: var(--purple); }
-    .cat-card.duel { border-color: var(--yellow); }
+    .cat-card.dodgeball { border-color: #FF2D2D; }
+    .cat-card.chase { border-color: #FF8C00; }
+    .cat-card.fun { border-color: #00D26A; }
+    .cat-card.team { border-color: #0088FF; }
+    .cat-card.wrestling { border-color: #8B2FC9; }
+    .cat-card.duel { border-color: #FFFF00; }
     .cat-card:hover.dodgeball { box-shadow: 0 6px 25px rgba(255, 45, 45, 0.3); }
     .cat-card:hover.chase { box-shadow: 0 6px 25px rgba(255, 140, 0, 0.3); }
     .cat-card:hover.fun { box-shadow: 0 6px 25px rgba(0, 210, 106, 0.3); }
@@ -271,7 +270,7 @@
     .cat-card:hover.duel { box-shadow: 0 6px 25px rgba(255, 208, 0, 0.3); }
     .cat-icon { font-size: 2.2rem; display: block; margin-bottom: 6px; }
     .cat-name {
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 0.9rem;
       letter-spacing: 1px;
       text-transform: uppercase;
@@ -292,7 +291,7 @@
       text-align: center;
     }
     .pfeq-title {
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 1.6rem;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -311,14 +310,14 @@
       gap: 8px;
       padding: 8px 18px;
       border-radius: 12px;
-      font-family: 'Bangers', sans-serif;
+      font-family: 'Bangers', Impact, sans-serif;
       font-size: 1rem;
       letter-spacing: 1px;
       border: 2px solid;
     }
-    .pfeq-badge.c1 { background: rgba(0, 223, 255, 0.15); border-color: var(--cyan); color: var(--cyan); }
-    .pfeq-badge.c2 { background: rgba(141, 255, 0, 0.15); border-color: var(--lime); color: var(--lime); }
-    .pfeq-badge.c3 { background: rgba(255, 255, 0, 0.15); border-color: var(--yellow); color: var(--yellow); }
+    .pfeq-badge.c1 { background: rgba(0, 223, 255, 0.15); border-color: #00DFFF; color: #00DFFF; }
+    .pfeq-badge.c2 { background: rgba(141, 255, 0, 0.15); border-color: #8DFF00; color: #8DFF00; }
+    .pfeq-badge.c3 { background: rgba(255, 255, 0, 0.15); border-color: #FFFF00; color: #FFFF00; }
     .pfeq-desc {
       font-size: 0.95rem;
       color: rgba(255,255,255,0.55);
@@ -328,14 +327,11 @@
     }
 
     /* ===== CTA BOTTOM ===== */
-    .cta-section {
-      text-align: center;
-      padding: 30px 0 40px;
-    }
+    .cta-section { text-align: center; padding: 30px 0 40px; }
     .cta-section .cta-subtitle {
-      font-family: 'Barriecito', cursive;
+      font-family: 'Barriecito', 'Comic Sans MS', cursive;
       font-size: 1.3rem;
-      color: var(--yellow);
+      color: #FFFF00;
       margin-bottom: 18px;
     }
 
@@ -346,10 +342,11 @@
       border-top: 2px solid rgba(255,255,255,0.08);
     }
     .footer-logo {
-      font-family: 'Bangers', Impact, sans-serif;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
       font-size: 1.2rem;
       letter-spacing: 2px;
-      background: linear-gradient(135deg, var(--cyan), var(--lime));
+      color: #00DFFF;
+      background: linear-gradient(135deg, #00DFFF, #8DFF00);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
@@ -378,13 +375,11 @@
 </head>
 <body>
 
-  <!-- Background shapes (absolute, not fixed — works in iframes) -->
-  <div class="bg-pattern">
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-    <div class="circle"></div>
-  </div>
+  <!-- Background circles -->
+  <div class="bg-circle c1"></div>
+  <div class="bg-circle c2"></div>
+  <div class="bg-circle c3"></div>
+  <div class="bg-circle c4"></div>
 
   <div class="landing">
 
@@ -396,7 +391,7 @@
       <p class="hero-tagline">
         <strong>310 jeux</strong> alignés avec le Programme de formation de l'école québécoise (PFEQ), prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !
       </p>
-      <a href="https://jeux.zonetotalsport.ca" class="cta-btn" target="_blank" rel="noopener">
+      <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn">
         <span class="cta-icon">🎮</span>
         EXPLORER LES 310 JEUX
       </a>
@@ -508,7 +503,7 @@
     <!-- CTA BOTTOM -->
     <section class="cta-section">
       <p class="cta-subtitle">Prêt à transformer tes cours d'éducation physique ?</p>
-      <a href="https://jeux.zonetotalsport.ca" class="cta-btn" target="_blank" rel="noopener">
+      <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn">
         <span class="cta-icon">🚀</span>
         C'EST PARTI !
       </a>
