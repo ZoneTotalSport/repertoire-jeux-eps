@@ -116,6 +116,31 @@ function getCatName(cat) {
 }
 
 // ============================================================
+// LOCALIZED FIELD GETTER
+// ============================================================
+function g(game, field) {
+  // Returns the English version of a field if lang is 'en' and it exists
+  if (state.lang === 'en') {
+    const enField = field + 'En';
+    if (game[enField] !== undefined && game[enField] !== '' && game[enField] !== null) {
+      return game[enField];
+    }
+  }
+  return game[field];
+}
+
+function gArr(game, field) {
+  // Same as g() but for array fields
+  if (state.lang === 'en') {
+    const enField = field + 'En';
+    if (game[enField] && Array.isArray(game[enField]) && game[enField].length > 0) {
+      return game[enField];
+    }
+  }
+  return game[field] || [];
+}
+
+// ============================================================
 // CYCLE MAPPING - Determine which cycles a game fits
 // ============================================================
 function getGameCycles(game) {
@@ -467,23 +492,27 @@ function applyFilters() {
     // For now, show all as all games are adaptable
   }
 
-  // Search
+  // Search (bilingual – searches both FR and EN fields)
   if (state.searchQuery) {
     const q = state.searchQuery;
-    filtered = filtered.filter(g => {
-      const searchText = [
-        g.title,
-        g.but,
-        g.intentionsC1,
-        g.intentionsC2,
-        g.intentionsC3 || '',
-        Array.isArray(g.materiel) ? g.materiel.join(' ') : g.materiel,
-        g.disposition,
-        Array.isArray(g.deroulement) ? g.deroulement.join(' ') : '',
-        Array.isArray(g.variantes) ? g.variantes.join(' ') : '',
-        Array.isArray(g.transversales) ? g.transversales.join(' ') : '',
+    filtered = filtered.filter(gm => {
+      const fields = [
+        gm.title, gm.titleEn,
+        gm.but, gm.butEn,
+        gm.intentionsC1, gm.intentionsC1En,
+        gm.intentionsC2, gm.intentionsC2En,
+        gm.intentionsC3 || '', gm.intentionsC3En || '',
+        Array.isArray(gm.materiel) ? gm.materiel.join(' ') : gm.materiel,
+        Array.isArray(gm.materielEn) ? gm.materielEn.join(' ') : (gm.materielEn || ''),
+        gm.disposition, gm.dispositionEn || '',
+        Array.isArray(gm.deroulement) ? gm.deroulement.join(' ') : '',
+        Array.isArray(gm.deroulementEn) ? gm.deroulementEn.join(' ') : '',
+        Array.isArray(gm.variantes) ? gm.variantes.join(' ') : '',
+        Array.isArray(gm.variantesEn) ? gm.variantesEn.join(' ') : '',
+        Array.isArray(gm.transversales) ? gm.transversales.join(' ') : '',
+        Array.isArray(gm.transversalesEn) ? gm.transversalesEn.join(' ') : '',
       ].join(' ').toLowerCase();
-      return searchText.includes(q);
+      return fields.includes(q);
     });
   }
 
@@ -510,7 +539,7 @@ function sortGames(games) {
       sorted.sort((a, b) => a.id - b.id);
       break;
     case 'title':
-      sorted.sort((a, b) => a.title.localeCompare(b.title, 'fr'));
+      sorted.sort((a, b) => g(a, 'title').localeCompare(g(b, 'title'), state.lang === 'fr' ? 'fr' : 'en'));
       break;
     case 'duration':
       sorted.sort((a, b) => a.dureeMin - b.dureeMin);
@@ -569,12 +598,15 @@ function createGameCard(game, index) {
   const isFav = state.favorites.includes(game.id);
   const catName = getCatName(game.category);
 
+  const title = g(game, 'title');
+  const but = g(game, 'but');
+
   card.innerHTML = `
     <div class="card-top">
       <div class="card-category-bar ${game.category}"></div>
       <div class="card-number">${game.id}</div>
-      <div class="card-title">${escapeHtml(game.title)}</div>
-      <div class="card-but">${escapeHtml(game.but)}</div>
+      <div class="card-title">${escapeHtml(title)}</div>
+      <div class="card-but">${escapeHtml(but)}</div>
     </div>
     <div class="card-bottom">
       <div class="card-tags">
@@ -597,6 +629,17 @@ function openGameDetail(game) {
   const isFav = state.favorites.includes(game.id);
   const catName = getCatName(game.category);
 
+  const title = g(game, 'title');
+  const but = g(game, 'but');
+  const disposition = g(game, 'disposition');
+  const intentionsC1 = g(game, 'intentionsC1');
+  const intentionsC2 = g(game, 'intentionsC2');
+  const intentionsC3 = g(game, 'intentionsC3');
+  const transversales = gArr(game, 'transversales');
+  const materiel = gArr(game, 'materiel');
+  const deroulement = gArr(game, 'deroulement');
+  const variantes = gArr(game, 'variantes');
+
   let html = `
     <div class="detail-category-bar ${game.category}"></div>
     <div class="detail-header">
@@ -607,23 +650,23 @@ function openGameDetail(game) {
           ${isFav ? t('isFav') : t('addFav')}
         </button>
       </div>
-      <h2 class="detail-title">${escapeHtml(game.title)}</h2>
+      <h2 class="detail-title">${escapeHtml(title)}</h2>
     </div>
     <div class="detail-sections">
       <!-- But -->
       <div class="detail-section">
         <div class="detail-section-title">${t('goalTitle')}</div>
-        <p>${escapeHtml(game.but)}</p>
+        <p>${escapeHtml(but)}</p>
       </div>
 
       <!-- Intentions pédagogiques -->
       <div class="detail-section">
         <div class="detail-section-title">${t('pedagogyTitle')}</div>
         <div class="competency-grid">
-          ${game.intentionsC1 ? `<div class="comp-item"><span class="comp-badge c1">C1</span> ${escapeHtml(game.intentionsC1)}</div>` : ''}
-          ${game.intentionsC2 ? `<div class="comp-item"><span class="comp-badge c2">C2</span> ${escapeHtml(game.intentionsC2)}</div>` : ''}
-          ${game.intentionsC3 ? `<div class="comp-item"><span class="comp-badge c3">C3</span> ${escapeHtml(game.intentionsC3)}</div>` : ''}
-          ${game.transversales && game.transversales.length > 0 ? `<div class="comp-item"><span class="comp-badge ct">CT</span> ${escapeHtml(game.transversales.join(', '))}</div>` : ''}
+          ${intentionsC1 ? `<div class="comp-item"><span class="comp-badge c1">C1</span> ${escapeHtml(intentionsC1)}</div>` : ''}
+          ${intentionsC2 ? `<div class="comp-item"><span class="comp-badge c2">C2</span> ${escapeHtml(intentionsC2)}</div>` : ''}
+          ${intentionsC3 ? `<div class="comp-item"><span class="comp-badge c3">C3</span> ${escapeHtml(intentionsC3)}</div>` : ''}
+          ${transversales && transversales.length > 0 ? `<div class="comp-item"><span class="comp-badge ct">CT</span> ${escapeHtml(transversales.join(', '))}</div>` : ''}
         </div>
       </div>
 
@@ -631,7 +674,7 @@ function openGameDetail(game) {
       <div class="detail-section">
         <div class="detail-section-title">${t('materialTitle')}</div>
         <div class="material-tags">
-          ${(Array.isArray(game.materiel) ? game.materiel : [game.materiel]).map(m =>
+          ${(Array.isArray(materiel) ? materiel : [materiel]).map(m =>
             `<span class="material-tag">${escapeHtml(m)}</span>`
           ).join('')}
         </div>
@@ -640,7 +683,7 @@ function openGameDetail(game) {
       <!-- Disposition -->
       <div class="detail-section">
         <div class="detail-section-title">${t('dispositionTitle')}</div>
-        <p>${escapeHtml(game.disposition)}</p>
+        <p>${escapeHtml(disposition)}</p>
       </div>
 
       <!-- Durée -->
@@ -653,17 +696,17 @@ function openGameDetail(game) {
       <div class="detail-section">
         <div class="detail-section-title">${t('stepsTitle')}</div>
         <ol>
-          ${(Array.isArray(game.deroulement) ? game.deroulement : []).map(step =>
+          ${deroulement.map(step =>
             `<li>${escapeHtml(step)}</li>`
           ).join('')}
         </ol>
       </div>
 
       <!-- Variantes -->
-      ${game.variantes && game.variantes.length > 0 ? `
+      ${variantes && variantes.length > 0 ? `
       <div class="detail-section">
         <div class="detail-section-title">${t('variantsTitle')}</div>
-        ${game.variantes.map(v => `<div class="variante-item">${escapeHtml(v)}</div>`).join('')}
+        ${variantes.map(v => `<div class="variante-item">${escapeHtml(v)}</div>`).join('')}
       </div>
       ` : ''}
 
@@ -733,8 +776,8 @@ function showRandomGame() {
   currentRandomGame = games[randomIndex];
 
   document.getElementById('randomTitle').textContent = t('randomTitle');
-  document.getElementById('randomGameName').textContent = currentRandomGame.title;
-  document.getElementById('randomGameBut').textContent = currentRandomGame.but;
+  document.getElementById('randomGameName').textContent = g(currentRandomGame, 'title');
+  document.getElementById('randomGameBut').textContent = g(currentRandomGame, 'but');
   document.getElementById('randomOpenDetail').textContent = t('randomOpen');
   document.getElementById('randomReroll').textContent = t('randomReroll');
   document.getElementById('randomCloseBtn').textContent = t('randomClose');
@@ -924,7 +967,7 @@ function printGame(gameId) {
     <html lang="${state.lang}">
     <head>
       <meta charset="UTF-8">
-      <title>${game.title} – ${t('gameSheet')}</title>
+      <title>${g(game, 'title')} – ${t('gameSheet')}</title>
       <style>
         @font-face { font-family: 'Bangers'; src: url('Bangers-Regular.ttf'); }
         @font-face { font-family: 'Barriecito'; src: url('Barriecito-Regular.ttf'); }
@@ -944,34 +987,34 @@ function printGame(gameId) {
       </style>
     </head>
     <body>
-      <h1>${state.lang === 'fr' ? 'Jeu' : 'Game'} #${game.id} : ${escapeHtml(game.title)}</h1>
+      <h1>${state.lang === 'fr' ? 'Jeu' : 'Game'} #${game.id} : ${escapeHtml(g(game, 'title'))}</h1>
       <div class="meta"><span class="badge">${game.categoryIcon || ''} ${catName}</span> &nbsp; ⏱️ ${game.duree || game.dureeMin + ' min'}</div>
 
       <h2>${t('goalTitle')}</h2>
-      <p>${escapeHtml(game.but)}</p>
+      <p>${escapeHtml(g(game, 'but'))}</p>
 
       <h2>${t('pedagogyTitle')}</h2>
       <ul>
-        ${game.intentionsC1 ? `<li><strong>C1 :</strong> ${escapeHtml(game.intentionsC1)}</li>` : ''}
-        ${game.intentionsC2 ? `<li><strong>C2 :</strong> ${escapeHtml(game.intentionsC2)}</li>` : ''}
-        ${game.intentionsC3 ? `<li><strong>C3 :</strong> ${escapeHtml(game.intentionsC3)}</li>` : ''}
-        ${game.transversales && game.transversales.length ? `<li><strong>CT :</strong> ${escapeHtml(game.transversales.join(', '))}</li>` : ''}
+        ${g(game, 'intentionsC1') ? `<li><strong>C1 :</strong> ${escapeHtml(g(game, 'intentionsC1'))}</li>` : ''}
+        ${g(game, 'intentionsC2') ? `<li><strong>C2 :</strong> ${escapeHtml(g(game, 'intentionsC2'))}</li>` : ''}
+        ${g(game, 'intentionsC3') ? `<li><strong>C3 :</strong> ${escapeHtml(g(game, 'intentionsC3'))}</li>` : ''}
+        ${gArr(game, 'transversales').length ? `<li><strong>CT :</strong> ${escapeHtml(gArr(game, 'transversales').join(', '))}</li>` : ''}
       </ul>
 
       <h2>${t('materialTitle')}</h2>
-      <p>${(Array.isArray(game.materiel) ? game.materiel : [game.materiel]).map(m => `<span class="material-tag">${escapeHtml(m)}</span>`).join(' ')}</p>
+      <p>${(Array.isArray(gArr(game, 'materiel')) ? gArr(game, 'materiel') : [gArr(game, 'materiel')]).map(m => `<span class="material-tag">${escapeHtml(m)}</span>`).join(' ')}</p>
 
       <h2>${t('dispositionTitle')}</h2>
-      <p>${escapeHtml(game.disposition)}</p>
+      <p>${escapeHtml(g(game, 'disposition'))}</p>
 
       <h2>${t('stepsTitle')}</h2>
       <ol>
-        ${(Array.isArray(game.deroulement) ? game.deroulement : []).map(s => `<li>${escapeHtml(s)}</li>`).join('')}
+        ${gArr(game, 'deroulement').map(s => `<li>${escapeHtml(s)}</li>`).join('')}
       </ol>
 
-      ${game.variantes && game.variantes.length ? `
+      ${gArr(game, 'variantes').length ? `
         <h2>${t('variantsTitle')}</h2>
-        ${game.variantes.map(v => `<div class="variante">${escapeHtml(v)}</div>`).join('')}
+        ${gArr(game, 'variantes').map(v => `<div class="variante">${escapeHtml(v)}</div>`).join('')}
       ` : ''}
 
       <div class="footer">${t('printFooter')}</div>
