@@ -24,11 +24,7 @@
       --purple: #8B2FC9;
     }
 
-    html, body {
-      min-height: 100%;
-      margin: 0;
-      padding: 0;
-    }
+    html, body { min-height: 100%; margin: 0; padding: 0; }
 
     body {
       font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -37,6 +33,39 @@
       overflow-x: hidden;
       position: relative;
     }
+
+    /* ===== LANG TOGGLE ===== */
+    .lang-toggle {
+      position: fixed;
+      top: 16px;
+      right: 20px;
+      z-index: 100;
+      display: flex;
+      gap: 0;
+      border-radius: 50px;
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.2);
+      background: rgba(15,15,26,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+    .lang-btn {
+      padding: 8px 18px;
+      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      cursor: pointer;
+      transition: all 0.25s;
+      background: transparent;
+      color: rgba(255,255,255,0.5);
+    }
+    .lang-btn.active {
+      background: linear-gradient(135deg, #00DFFF, #8DFF00);
+      color: #1A1A2E;
+    }
+    .lang-btn:hover:not(.active) { color: #FFFFFF; }
 
     /* ===== BG circles ===== */
     .bg-circle {
@@ -84,9 +113,7 @@
       letter-spacing: 4px;
       line-height: 1;
       margin-bottom: 8px;
-      /* Fallback: bright cyan color visible on dark bg */
       color: #00DFFF;
-      /* Gradient text for browsers that support it */
       background: linear-gradient(135deg, #00DFFF 0%, #8DFF00 40%, #FFFF00 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -370,10 +397,18 @@
       .features-grid { grid-template-columns: 1fr; }
       .cat-grid { grid-template-columns: repeat(2, 1fr); }
       .pfeq-section { padding: 20px 14px; }
+      .lang-toggle { top: 10px; right: 10px; }
+      .lang-btn { padding: 6px 14px; font-size: 0.85rem; }
     }
   </style>
 </head>
 <body>
+
+  <!-- Language toggle -->
+  <div class="lang-toggle">
+    <button class="lang-btn active" id="btnFr" onclick="setLang('fr')">FR</button>
+    <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
+  </div>
 
   <!-- Background circles -->
   <div class="bg-circle c1"></div>
@@ -387,13 +422,11 @@
     <section class="hero">
       <div class="hero-badge">Zone Total Sport</div>
       <h1 class="hero-title">GIGA-JEUX EPS</h1>
-      <p class="hero-subtitle">Le plus gros répertoire de jeux d'éducation physique au Québec !</p>
-      <p class="hero-tagline">
-        <strong>310 jeux</strong> alignés avec le Programme de formation de l'école québécoise (PFEQ), prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !
-      </p>
-      <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn">
+      <p class="hero-subtitle" data-fr="Le plus gros répertoire de jeux d'éducation physique au Québec !" data-en="The biggest physical education games repertoire in Quebec!">Le plus gros répertoire de jeux d'éducation physique au Québec !</p>
+      <p class="hero-tagline" data-fr="&lt;strong&gt;310 jeux&lt;/strong&gt; alignés avec le Programme de formation de l'école québécoise (PFEQ), prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !" data-en="&lt;strong&gt;310 games&lt;/strong&gt; aligned with the Quebec Education Program (PFEQ), ready to use in your gym. Filter by category, duration, skill or equipment!"><strong>310 jeux</strong> alignés avec le Programme de formation de l'école québécoise (PFEQ), prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !</p>
+      <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn" id="ctaTop">
         <span class="cta-icon">🎮</span>
-        EXPLORER LES 310 JEUX
+        <span data-fr="EXPLORER LES 310 JEUX" data-en="EXPLORE ALL 310 GAMES">EXPLORER LES 310 JEUX</span>
       </a>
     </section>
 
@@ -401,121 +434,147 @@
     <section class="stats-row">
       <div class="stat-card">
         <div class="stat-number">310</div>
-        <div class="stat-label">Jeux</div>
+        <div class="stat-label" data-fr="Jeux" data-en="Games">Jeux</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">6</div>
-        <div class="stat-label">Catégories</div>
+        <div class="stat-label" data-fr="Catégories" data-en="Categories">Catégories</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">3</div>
-        <div class="stat-label">Compétences PFEQ</div>
+        <div class="stat-label" data-fr="Compétences PFEQ" data-en="PFEQ Skills">Compétences PFEQ</div>
       </div>
       <div class="stat-card">
         <div class="stat-number">FR/EN</div>
-        <div class="stat-label">Bilingue</div>
+        <div class="stat-label" data-fr="Bilingue" data-en="Bilingual">Bilingue</div>
       </div>
     </section>
 
     <!-- FEATURES -->
-    <h2 class="section-title">Pourquoi <span>GIGA-JEUX</span> ?</h2>
+    <h2 class="section-title" data-fr="Pourquoi <span>GIGA-JEUX</span> ?" data-en="Why <span>GIGA-JEUX</span>?">Pourquoi <span>GIGA-JEUX</span> ?</h2>
     <div class="features-grid">
       <div class="feature-card">
         <span class="feature-icon">📋</span>
-        <div class="feature-name">Fiches complètes</div>
-        <div class="feature-desc">Chaque jeu inclut le but, le déroulement étape par étape, les variantes, le matériel et la disposition.</div>
+        <div class="feature-name" data-fr="Fiches complètes" data-en="Complete Game Sheets">Fiches complètes</div>
+        <div class="feature-desc" data-fr="Chaque jeu inclut le but, le déroulement étape par étape, les variantes, le matériel et la disposition." data-en="Each game includes the objective, step-by-step instructions, variations, equipment and setup.">Chaque jeu inclut le but, le déroulement étape par étape, les variantes, le matériel et la disposition.</div>
       </div>
       <div class="feature-card">
         <span class="feature-icon">🎯</span>
-        <div class="feature-name">Aligné PFEQ</div>
-        <div class="feature-desc">Intentions pédagogiques liées aux 3 compétences du primaire (C1, C2, C3) et compétences transversales.</div>
+        <div class="feature-name" data-fr="Aligné PFEQ" data-en="PFEQ Aligned">Aligné PFEQ</div>
+        <div class="feature-desc" data-fr="Intentions pédagogiques liées aux 3 compétences du primaire (C1, C2, C3) et compétences transversales." data-en="Pedagogical intentions linked to the 3 elementary skills (C1, C2, C3) and cross-curricular competencies.">Intentions pédagogiques liées aux 3 compétences du primaire (C1, C2, C3) et compétences transversales.</div>
       </div>
       <div class="feature-card">
         <span class="feature-icon">🖥️</span>
-        <div class="feature-name">Tableau blanc</div>
-        <div class="feature-desc">Interface optimisée pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !</div>
+        <div class="feature-name" data-fr="Tableau blanc" data-en="Whiteboard Ready">Tableau blanc</div>
+        <div class="feature-desc" data-fr="Interface optimisée pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !" data-en="Interface optimized for gym interactive whiteboards. Big text, vivid colors!">Interface optimisée pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !</div>
       </div>
       <div class="feature-card">
         <span class="feature-icon">⏱️</span>
-        <div class="feature-name">Minuterie intégrée</div>
-        <div class="feature-desc">Chrono intégré avec préréglages (1, 2, 5, 10, 15, 20 min) pour gérer tes activités.</div>
+        <div class="feature-name" data-fr="Minuterie intégrée" data-en="Built-in Timer">Minuterie intégrée</div>
+        <div class="feature-desc" data-fr="Chrono intégré avec préréglages (1, 2, 5, 10, 15, 20 min) pour gérer tes activités." data-en="Built-in timer with presets (1, 2, 5, 10, 15, 20 min) to manage your activities.">Chrono intégré avec préréglages (1, 2, 5, 10, 15, 20 min) pour gérer tes activités.</div>
       </div>
       <div class="feature-card">
         <span class="feature-icon">🎲</span>
-        <div class="feature-name">Jeu aléatoire</div>
-        <div class="feature-desc">Un bouton pour piger un jeu au hasard. Parfait quand tu manques d'inspiration !</div>
+        <div class="feature-name" data-fr="Jeu aléatoire" data-en="Random Game">Jeu aléatoire</div>
+        <div class="feature-desc" data-fr="Un bouton pour piger un jeu au hasard. Parfait quand tu manques d'inspiration !" data-en="A button to pick a random game. Perfect when you need inspiration!">Un bouton pour piger un jeu au hasard. Parfait quand tu manques d'inspiration !</div>
       </div>
       <div class="feature-card">
         <span class="feature-icon">🌐</span>
-        <div class="feature-name">Bilingue FR / EN</div>
-        <div class="feature-desc">Bascule entre français et anglais en un clic. Idéal pour les écoles anglophones du Québec.</div>
+        <div class="feature-name" data-fr="Bilingue FR / EN" data-en="Bilingual FR / EN">Bilingue FR / EN</div>
+        <div class="feature-desc" data-fr="Bascule entre français et anglais en un clic. Idéal pour les écoles anglophones du Québec." data-en="Switch between French and English in one click. Ideal for English-speaking schools in Quebec.">Bascule entre français et anglais en un clic. Idéal pour les écoles anglophones du Québec.</div>
       </div>
     </div>
 
     <!-- CATEGORIES -->
-    <h2 class="section-title">6 <span>Catégories</span> de jeux</h2>
+    <h2 class="section-title" data-fr="6 <span>Catégories</span> de jeux" data-en="6 Game <span>Categories</span>">6 <span>Catégories</span> de jeux</h2>
     <div class="cat-grid">
       <div class="cat-card dodgeball">
         <span class="cat-icon">🔴</span>
-        <div class="cat-name">Ballons chasseurs</div>
-        <div class="cat-count">Dodgeball</div>
+        <div class="cat-name" data-fr="Ballons chasseurs" data-en="Dodgeball">Ballons chasseurs</div>
+        <div class="cat-count" data-fr="Dodgeball" data-en="Dodgeball">Dodgeball</div>
       </div>
       <div class="cat-card chase">
         <span class="cat-icon">🏃</span>
-        <div class="cat-name">Poursuites</div>
-        <div class="cat-count">Chase</div>
+        <div class="cat-name" data-fr="Poursuites" data-en="Chase">Poursuites</div>
+        <div class="cat-count" data-fr="Chase" data-en="Tag Games">Chase</div>
       </div>
       <div class="cat-card fun">
         <span class="cat-icon">🎮</span>
-        <div class="cat-name">Ludiques</div>
-        <div class="cat-count">Cooperative</div>
+        <div class="cat-name" data-fr="Ludiques" data-en="Fun / Co-op">Ludiques</div>
+        <div class="cat-count" data-fr="Coopératifs" data-en="Cooperative">Coopératifs</div>
       </div>
       <div class="cat-card team">
         <span class="cat-icon">⚽</span>
-        <div class="cat-name">Collectifs</div>
-        <div class="cat-count">Team</div>
+        <div class="cat-name" data-fr="Collectifs" data-en="Team Sports">Collectifs</div>
+        <div class="cat-count" data-fr="Équipe" data-en="Team">Équipe</div>
       </div>
       <div class="cat-card wrestling">
         <span class="cat-icon">🤼</span>
-        <div class="cat-name">Opposition</div>
-        <div class="cat-count">Wrestling</div>
+        <div class="cat-name" data-fr="Opposition" data-en="Wrestling">Opposition</div>
+        <div class="cat-count" data-fr="Combat" data-en="Combat">Combat</div>
       </div>
       <div class="cat-card duel">
         <span class="cat-icon">⚔️</span>
-        <div class="cat-name">Duels</div>
-        <div class="cat-count">Duel</div>
+        <div class="cat-name" data-fr="Duels" data-en="Duels">Duels</div>
+        <div class="cat-count" data-fr="1 contre 1" data-en="1 vs 1">1 contre 1</div>
       </div>
     </div>
 
     <!-- PFEQ -->
     <section class="pfeq-section">
-      <h2 class="pfeq-title">🏫 Conforme au Programme PFEQ</h2>
+      <h2 class="pfeq-title" data-fr="🏫 Conforme au Programme PFEQ" data-en="🏫 PFEQ Program Compliant">🏫 Conforme au Programme PFEQ</h2>
       <div class="pfeq-badges">
-        <span class="pfeq-badge c1">C1 — Agir</span>
-        <span class="pfeq-badge c2">C2 — Interagir</span>
-        <span class="pfeq-badge c3">C3 — Adopter</span>
+        <span class="pfeq-badge c1" data-fr="C1 — Agir" data-en="C1 — Act">C1 — Agir</span>
+        <span class="pfeq-badge c2" data-fr="C2 — Interagir" data-en="C2 — Interact">C2 — Interagir</span>
+        <span class="pfeq-badge c3" data-fr="C3 — Adopter" data-en="C3 — Adopt">C3 — Adopter</span>
       </div>
-      <p class="pfeq-desc">
-        Chaque jeu est lié aux compétences du Programme de formation de l'école québécoise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif).
-      </p>
+      <p class="pfeq-desc" data-fr="Chaque jeu est lié aux compétences du Programme de formation de l'école québécoise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif)." data-en="Each game is linked to the Quebec Education Program competencies. Easily filter by C1 (act in various contexts), C2 (interact) or C3 (adopt a healthy and active lifestyle).">Chaque jeu est lié aux compétences du Programme de formation de l'école québécoise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif).</p>
     </section>
 
     <!-- CTA BOTTOM -->
     <section class="cta-section">
-      <p class="cta-subtitle">Prêt à transformer tes cours d'éducation physique ?</p>
-      <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn">
+      <p class="cta-subtitle" data-fr="Prêt à transformer tes cours d'éducation physique ?" data-en="Ready to transform your PE classes?">Prêt à transformer tes cours d'éducation physique ?</p>
+      <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn" id="ctaBottom">
         <span class="cta-icon">🚀</span>
-        C'EST PARTI !
+        <span data-fr="C'EST PARTI !" data-en="LET'S GO!">C'EST PARTI !</span>
       </a>
     </section>
 
     <!-- FOOTER -->
     <footer class="landing-footer">
       <div class="footer-logo">ZONE TOTAL SPORT</div>
-      <div class="footer-text">Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec</div>
+      <div class="footer-text" data-fr="Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec" data-en="310 Physical Education Games Repertoire • PFEQ Elementary • Quebec">Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec</div>
     </footer>
 
   </div>
+
+  <script>
+    let currentLang = 'fr';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+
+      // Toggle active button
+      document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
+      document.getElementById('btnEn').classList.toggle('active', lang === 'en');
+
+      // Update all elements with data-fr / data-en
+      document.querySelectorAll('[data-fr][data-en]').forEach(el => {
+        const val = lang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
+        if (val.includes('<')) {
+          el.innerHTML = val;
+        } else {
+          el.textContent = val;
+        }
+      });
+
+      // Update page title
+      document.title = lang === 'fr'
+        ? "GIGA-JEUX EPS | 310 Jeux d'Éducation Physique"
+        : "GIGA-JEUX EPS | 310 Physical Education Games";
+    }
+  </script>
 
 </body>
 </html>
