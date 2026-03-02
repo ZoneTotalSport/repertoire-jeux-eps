@@ -6,399 +6,519 @@
   <title>GIGA-JEUX EPS | 310 Jeux d'Éducation Physique</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Barriecito&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@800;900&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --cyan: #00DFFF;
-      --lime: #8DFF00;
-      --yellow: #FFFF00;
-      --dark: #1A1A2E;
-      --darker: #0F0F1A;
-      --white: #FFFFFF;
-      --orange: #FF8C00;
-      --red: #FF2D2D;
-      --blue: #0088FF;
-      --green: #00D26A;
-      --purple: #8B2FC9;
+      --black: #111111;
+      --white: #FFFEF0;
+      --red: #E8001D;
+      --yellow: #FFE600;
+      --blue: #0057FF;
+      --green: #00B344;
+      --orange: #FF6B00;
+      --purple: #7B00D4;
+      --cyan: #00C8FF;
+      --outline: 4px solid #111111;
+      --shadow: 6px 6px 0px #111111;
+      --shadow-big: 8px 8px 0px #111111;
     }
 
-    html, body { min-height: 100%; margin: 0; padding: 0; }
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: var(--yellow);
+    }
 
     body {
-      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background-color: #0F0F1A;
-      color: #FFFFFF;
+      font-family: 'Nunito', Arial Black, sans-serif;
+      color: var(--black);
       overflow-x: hidden;
       position: relative;
+    }
+
+    /* ===== HALFTONE BG ===== */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, #11111115 2px, transparent 2px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* ===== LANG TOGGLE ===== */
     .lang-toggle {
       position: fixed;
-      top: 16px;
-      right: 20px;
-      z-index: 100;
+      top: 20px;
+      right: 24px;
+      z-index: 200;
       display: flex;
-      gap: 0;
-      border-radius: 50px;
+      border-radius: 12px;
       overflow: hidden;
-      border: 2px solid rgba(255,255,255,0.2);
-      background: rgba(15,15,26,0.85);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      border: var(--outline);
+      box-shadow: var(--shadow);
     }
     .lang-btn {
-      padding: 8px 18px;
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 0.95rem;
-      letter-spacing: 2px;
+      padding: 10px 22px;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 3px;
       text-transform: uppercase;
       border: none;
       cursor: pointer;
-      transition: all 0.25s;
-      background: transparent;
-      color: rgba(255,255,255,0.5);
+      transition: all 0.15s;
+      background: var(--white);
+      color: var(--black);
     }
     .lang-btn.active {
-      background: linear-gradient(135deg, #00DFFF, #8DFF00);
-      color: #1A1A2E;
+      background: var(--red);
+      color: var(--white);
     }
-    .lang-btn:hover:not(.active) { color: #FFFFFF; }
-
-    /* ===== BG circles ===== */
-    .bg-circle {
-      position: fixed;
-      border-radius: 50%;
-      opacity: 0.07;
-      pointer-events: none;
-      z-index: 0;
-    }
-    .bg-circle.c1 { width: 500px; height: 500px; background: #00DFFF; top: -100px; left: -80px; }
-    .bg-circle.c2 { width: 400px; height: 400px; background: #8DFF00; top: 600px; right: -100px; }
-    .bg-circle.c3 { width: 450px; height: 450px; background: #FFFF00; top: 1400px; left: 20%; }
-    .bg-circle.c4 { width: 350px; height: 350px; background: #8B2FC9; top: 2200px; right: 10%; }
+    .lang-btn:hover:not(.active) { background: var(--yellow); }
 
     /* ===== MAIN CONTAINER ===== */
     .landing {
       position: relative;
       z-index: 1;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
-      padding: 40px 24px 20px;
+      padding: 40px 32px 40px;
     }
 
     /* ===== HERO ===== */
-    .hero { text-align: center; padding: 50px 0 30px; }
+    .hero {
+      text-align: center;
+      padding: 60px 0 40px;
+    }
 
     .hero-badge {
       display: inline-block;
-      background: linear-gradient(135deg, #00DFFF, #8DFF00);
-      color: #1A1A2E;
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 1rem;
-      letter-spacing: 3px;
+      background: var(--red);
+      color: var(--white);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 4px;
       text-transform: uppercase;
-      padding: 6px 24px;
-      border-radius: 50px;
-      margin-bottom: 20px;
-      box-shadow: 0 0 25px rgba(0, 223, 255, 0.4);
+      padding: 8px 32px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      border: var(--outline);
+      box-shadow: var(--shadow);
+      transform: rotate(-1deg);
+      display: inline-block;
     }
 
     .hero-title {
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: clamp(3rem, 8vw, 6rem);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(4.5rem, 12vw, 9rem);
       text-transform: uppercase;
-      letter-spacing: 4px;
-      line-height: 1;
-      margin-bottom: 8px;
-      color: #00DFFF;
-      background: linear-gradient(135deg, #00DFFF 0%, #8DFF00 40%, #FFFF00 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      filter: drop-shadow(3px 3px 0px rgba(0,0,0,0.5));
+      letter-spacing: 6px;
+      line-height: 0.9;
+      margin-bottom: 16px;
+      color: var(--blue);
+      -webkit-text-stroke: 4px var(--black);
+      paint-order: stroke fill;
+      text-shadow:
+        8px 8px 0px var(--black);
+      display: block;
     }
 
     .hero-subtitle {
-      font-family: 'Barriecito', 'Comic Sans MS', cursive;
-      font-size: clamp(1.2rem, 3vw, 1.8rem);
-      color: #FFFF00;
-      margin-bottom: 12px;
-      text-shadow: 2px 2px 0px rgba(0,0,0,0.4);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(1.6rem, 3.5vw, 2.6rem);
+      color: var(--black);
+      margin-bottom: 16px;
+      letter-spacing: 2px;
+      background: var(--yellow);
+      display: inline-block;
+      padding: 4px 16px;
+      border: 3px solid var(--black);
+      box-shadow: 4px 4px 0px var(--black);
+      transform: rotate(0.5deg);
     }
 
     .hero-tagline {
-      font-size: 1.1rem;
-      font-weight: 600;
-      color: rgba(255,255,255,0.7);
-      max-width: 600px;
-      margin: 0 auto 36px;
+      font-size: clamp(1.1rem, 2vw, 1.5rem);
+      font-weight: 800;
+      color: var(--black);
+      max-width: 700px;
+      margin: 16px auto 44px;
       line-height: 1.6;
+      background: var(--white);
+      border: var(--outline);
+      box-shadow: var(--shadow);
+      border-radius: 12px;
+      padding: 16px 24px;
     }
-    .hero-tagline strong { color: #00DFFF; }
+    .hero-tagline strong { color: var(--red); }
 
     /* ===== CTA ===== */
     .cta-btn {
       display: inline-flex;
       align-items: center;
-      gap: 12px;
-      background: linear-gradient(135deg, #00DFFF, #8DFF00);
-      color: #1A1A2E;
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 1.7rem;
-      letter-spacing: 3px;
+      gap: 14px;
+      background: var(--green);
+      color: var(--white);
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      letter-spacing: 4px;
       text-transform: uppercase;
       text-decoration: none;
-      padding: 16px 44px;
+      padding: 20px 56px;
       border-radius: 16px;
-      border: 4px solid #1A1A2E;
-      box-shadow: 6px 6px 0px #1A1A2E, 0 0 30px rgba(0, 223, 255, 0.3);
-      transition: all 0.2s;
+      border: 5px solid var(--black);
+      box-shadow: var(--shadow-big);
+      transition: all 0.15s;
       cursor: pointer;
+      position: relative;
     }
     .cta-btn:hover {
-      transform: translate(-3px, -3px);
-      box-shadow: 9px 9px 0px #1A1A2E, 0 0 50px rgba(0, 223, 255, 0.5);
+      transform: translate(-4px, -4px);
+      box-shadow: 12px 12px 0px var(--black);
+      background: var(--red);
     }
-    .cta-btn .cta-icon { font-size: 2rem; }
+    .cta-btn .cta-icon { font-size: 2.5rem; }
+
+    /* ===== POW DECO ===== */
+    .pow-deco {
+      display: inline-block;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 2rem;
+      color: var(--yellow);
+      -webkit-text-stroke: 3px var(--black);
+      letter-spacing: 2px;
+      margin: 0 12px;
+      transform: rotate(-8deg);
+      display: inline-block;
+      vertical-align: middle;
+    }
 
     /* ===== STATS ===== */
     .stats-row {
       display: flex;
       justify-content: center;
-      gap: 16px;
+      gap: 20px;
       flex-wrap: wrap;
-      margin: 44px 0 50px;
+      margin: 50px 0 60px;
     }
     .stat-card {
-      background: rgba(255,255,255,0.06);
-      border: 3px solid rgba(255,255,255,0.1);
+      background: var(--white);
+      border: var(--outline);
       border-radius: 16px;
-      padding: 22px 24px;
+      padding: 28px 32px;
       text-align: center;
-      min-width: 130px;
-      transition: transform 0.3s, border-color 0.3s;
+      min-width: 150px;
+      box-shadow: var(--shadow-big);
+      transition: transform 0.2s, box-shadow 0.2s;
+      position: relative;
     }
-    .stat-card:hover { transform: translateY(-4px); border-color: #00DFFF; }
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -4px; left: -4px; right: -4px; bottom: -4px;
+      border-radius: 18px;
+      z-index: -1;
+    }
+    .stat-card:nth-child(1) { background: var(--red); color: var(--white); transform: rotate(-2deg); }
+    .stat-card:nth-child(2) { background: var(--blue); color: var(--white); transform: rotate(1.5deg); }
+    .stat-card:nth-child(3) { background: var(--green); color: var(--white); transform: rotate(-1deg); }
+    .stat-card:nth-child(4) { background: var(--purple); color: var(--white); transform: rotate(2deg); }
+    .stat-card:hover { transform: translateY(-6px) rotate(0deg); box-shadow: 10px 10px 0px var(--black); }
     .stat-number {
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 2.6rem;
-      letter-spacing: 2px;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(3rem, 6vw, 5rem);
+      letter-spacing: 3px;
       line-height: 1;
-      color: #00DFFF;
-      background: linear-gradient(135deg, #00DFFF, #FFFF00);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--yellow);
+      -webkit-text-stroke: 2px var(--black);
     }
     .stat-label {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: rgba(255,255,255,0.55);
+      font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+      font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-top: 4px;
+      letter-spacing: 2px;
+      margin-top: 6px;
+      color: var(--white);
     }
 
     /* ===== SECTION TITLE ===== */
     .section-title {
       text-align: center;
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 2rem;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
       text-transform: uppercase;
-      letter-spacing: 3px;
-      margin-bottom: 32px;
-      color: #FFFFFF;
+      letter-spacing: 4px;
+      margin-bottom: 36px;
+      color: var(--black);
+      position: relative;
+      display: inline-block;
+      width: 100%;
     }
     .section-title span {
-      color: #8DFF00;
-      background: linear-gradient(135deg, #8DFF00, #FFFF00);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      color: var(--white);
+      background: var(--blue);
+      padding: 0 12px;
+      border: 3px solid var(--black);
+      box-shadow: 4px 4px 0 var(--black);
+      display: inline-block;
+      transform: rotate(-1deg);
     }
 
     /* ===== FEATURES ===== */
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      margin-bottom: 50px;
+      gap: 24px;
+      margin-bottom: 60px;
     }
     .feature-card {
-      background: rgba(255,255,255,0.05);
-      border: 3px solid rgba(255,255,255,0.08);
+      background: var(--white);
+      border: var(--outline);
       border-radius: 20px;
-      padding: 28px 20px;
+      padding: 32px 24px;
       text-align: center;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow-big);
+      transition: transform 0.2s, box-shadow 0.2s;
       position: relative;
       overflow: hidden;
     }
-    .feature-card::before {
+    .feature-card::after {
       content: '';
       position: absolute;
       top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #00DFFF, #8DFF00, #FFFF00);
-      opacity: 0;
-      transition: opacity 0.3s;
+      height: 8px;
     }
+    .feature-card:nth-child(1)::after { background: var(--red); }
+    .feature-card:nth-child(2)::after { background: var(--blue); }
+    .feature-card:nth-child(3)::after { background: var(--green); }
+    .feature-card:nth-child(4)::after { background: var(--orange); }
+    .feature-card:nth-child(5)::after { background: var(--purple); }
+    .feature-card:nth-child(6)::after { background: var(--cyan); border-top: var(--outline); }
     .feature-card:hover {
-      transform: translateY(-4px);
-      border-color: #00DFFF;
-      box-shadow: 0 8px 30px rgba(0, 223, 255, 0.15);
+      transform: translate(-4px, -4px);
+      box-shadow: 10px 10px 0px var(--black);
     }
-    .feature-card:hover::before { opacity: 1; }
-    .feature-icon { font-size: 2.6rem; margin-bottom: 12px; display: block; }
+    .feature-icon { font-size: 3.5rem; margin-bottom: 14px; display: block; }
     .feature-name {
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 1.15rem;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
       letter-spacing: 2px;
       text-transform: uppercase;
-      margin-bottom: 8px;
-      color: #00DFFF;
+      margin-bottom: 10px;
+      color: var(--black);
     }
     .feature-desc {
-      font-size: 0.9rem;
-      color: rgba(255,255,255,0.6);
-      line-height: 1.55;
+      font-size: clamp(0.95rem, 1.5vw, 1.15rem);
+      color: #333;
+      line-height: 1.6;
+      font-weight: 800;
     }
 
     /* ===== CATEGORIES ===== */
     .cat-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
-      gap: 14px;
-      margin-bottom: 50px;
+      gap: 16px;
+      margin-bottom: 60px;
     }
     .cat-card {
-      background: rgba(255,255,255,0.05);
-      border: 3px solid;
+      border: var(--outline);
       border-radius: 16px;
-      padding: 18px 8px;
+      padding: 24px 10px;
       text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .cat-card:hover { transform: translateY(-4px) scale(1.03); }
-    .cat-card.dodgeball { border-color: #FF2D2D; }
-    .cat-card.chase { border-color: #FF8C00; }
-    .cat-card.fun { border-color: #00D26A; }
-    .cat-card.team { border-color: #0088FF; }
-    .cat-card.wrestling { border-color: #8B2FC9; }
-    .cat-card.duel { border-color: #FFFF00; }
-    .cat-card:hover.dodgeball { box-shadow: 0 6px 25px rgba(255, 45, 45, 0.3); }
-    .cat-card:hover.chase { box-shadow: 0 6px 25px rgba(255, 140, 0, 0.3); }
-    .cat-card:hover.fun { box-shadow: 0 6px 25px rgba(0, 210, 106, 0.3); }
-    .cat-card:hover.team { box-shadow: 0 6px 25px rgba(0, 136, 255, 0.3); }
-    .cat-card:hover.wrestling { box-shadow: 0 6px 25px rgba(139, 47, 201, 0.3); }
-    .cat-card:hover.duel { box-shadow: 0 6px 25px rgba(255, 208, 0, 0.3); }
-    .cat-icon { font-size: 2.2rem; display: block; margin-bottom: 6px; }
+    .cat-card:hover { transform: translateY(-6px) scale(1.05); box-shadow: 8px 8px 0px var(--black); }
+    .cat-card.dodgeball { background: var(--red); color: var(--white); }
+    .cat-card.chase { background: var(--orange); color: var(--black); }
+    .cat-card.fun { background: var(--green); color: var(--white); }
+    .cat-card.team { background: var(--blue); color: var(--white); }
+    .cat-card.wrestling { background: var(--purple); color: var(--white); }
+    .cat-card.duel { background: var(--yellow); color: var(--black); }
+    .cat-icon { font-size: clamp(2rem, 3vw, 3rem); display: block; margin-bottom: 8px; }
     .cat-name {
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 0.9rem;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(0.95rem, 1.5vw, 1.25rem);
       letter-spacing: 1px;
       text-transform: uppercase;
     }
     .cat-count {
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.45);
-      margin-top: 2px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      margin-top: 4px;
+      opacity: 0.75;
     }
 
     /* ===== PFEQ ===== */
     .pfeq-section {
-      background: rgba(255,255,255,0.04);
-      border: 3px solid rgba(255,255,255,0.08);
+      background: var(--blue);
+      border: var(--outline);
       border-radius: 24px;
-      padding: 36px 28px;
-      margin-bottom: 50px;
+      padding: 44px 36px;
+      margin-bottom: 60px;
       text-align: center;
+      box-shadow: var(--shadow-big);
+      position: relative;
+      overflow: hidden;
+    }
+    .pfeq-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.12) 2px, transparent 2px);
+      background-size: 20px 20px;
+      pointer-events: none;
     }
     .pfeq-title {
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 1.6rem;
-      letter-spacing: 2px;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(1.8rem, 3.5vw, 3rem);
+      letter-spacing: 3px;
       text-transform: uppercase;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
+      color: var(--yellow);
+      -webkit-text-stroke: 2px var(--black);
+      position: relative;
     }
     .pfeq-badges {
       display: flex;
       justify-content: center;
-      gap: 14px;
+      gap: 16px;
       flex-wrap: wrap;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
+      position: relative;
     }
     .pfeq-badge {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 8px 18px;
+      gap: 10px;
+      padding: 12px 24px;
       border-radius: 12px;
       font-family: 'Bangers', Impact, sans-serif;
-      font-size: 1rem;
-      letter-spacing: 1px;
-      border: 2px solid;
+      font-size: clamp(1.2rem, 2vw, 1.6rem);
+      letter-spacing: 2px;
+      border: 4px solid var(--black);
+      box-shadow: 4px 4px 0 var(--black);
     }
-    .pfeq-badge.c1 { background: rgba(0, 223, 255, 0.15); border-color: #00DFFF; color: #00DFFF; }
-    .pfeq-badge.c2 { background: rgba(141, 255, 0, 0.15); border-color: #8DFF00; color: #8DFF00; }
-    .pfeq-badge.c3 { background: rgba(255, 255, 0, 0.15); border-color: #FFFF00; color: #FFFF00; }
+    .pfeq-badge.c1 { background: var(--red); color: var(--white); }
+    .pfeq-badge.c2 { background: var(--green); color: var(--white); }
+    .pfeq-badge.c3 { background: var(--yellow); color: var(--black); }
     .pfeq-desc {
-      font-size: 0.95rem;
-      color: rgba(255,255,255,0.55);
-      max-width: 680px;
+      font-size: clamp(1rem, 1.6vw, 1.3rem);
+      color: var(--white);
+      max-width: 720px;
       margin: 0 auto;
-      line-height: 1.6;
+      line-height: 1.65;
+      font-weight: 800;
+      position: relative;
     }
 
     /* ===== CTA BOTTOM ===== */
-    .cta-section { text-align: center; padding: 30px 0 40px; }
+    .cta-section {
+      text-align: center;
+      padding: 40px 0 50px;
+    }
     .cta-section .cta-subtitle {
-      font-family: 'Barriecito', 'Comic Sans MS', cursive;
-      font-size: 1.3rem;
-      color: #FFFF00;
-      margin-bottom: 18px;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      color: var(--black);
+      margin-bottom: 24px;
+      letter-spacing: 2px;
+    }
+
+    /* ===== SPEECH BUBBLE ===== */
+    .speech-wrap {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+    .speech-bubble {
+      background: var(--white);
+      border: var(--outline);
+      border-radius: 20px;
+      padding: 20px 36px;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      letter-spacing: 2px;
+      box-shadow: var(--shadow-big);
+      position: relative;
+      display: inline-block;
+    }
+    .speech-bubble::after {
+      content: '';
+      position: absolute;
+      bottom: -24px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 18px solid transparent;
+      border-right: 18px solid transparent;
+      border-top: 24px solid var(--black);
+    }
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 14px solid transparent;
+      border-right: 14px solid transparent;
+      border-top: 20px solid var(--white);
+      z-index: 1;
     }
 
     /* ===== FOOTER ===== */
     .landing-footer {
       text-align: center;
-      padding: 20px 0 30px;
-      border-top: 2px solid rgba(255,255,255,0.08);
+      padding: 28px 0 36px;
+      border-top: var(--outline);
+      margin-top: 20px;
     }
     .footer-logo {
-      font-family: 'Bangers', Impact, 'Arial Black', sans-serif;
-      font-size: 1.2rem;
-      letter-spacing: 2px;
-      color: #00DFFF;
-      background: linear-gradient(135deg, #00DFFF, #8DFF00);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 4px;
+      color: var(--black);
       margin-bottom: 6px;
     }
     .footer-text {
-      font-size: 0.8rem;
-      color: rgba(255,255,255,0.35);
+      font-size: 1rem;
+      font-weight: 800;
+      color: #444;
+    }
+
+    /* ===== SECTION DIVIDER ===== */
+    .divider {
+      text-align: center;
+      margin: 0 0 48px;
+      font-family: 'Bangers', Impact, sans-serif;
+      font-size: 1.5rem;
+      letter-spacing: 6px;
+      color: var(--black);
+      opacity: 0.3;
     }
 
     /* ===== RESPONSIVE ===== */
-    @media (max-width: 900px) {
+    @media (max-width: 1000px) {
       .features-grid { grid-template-columns: repeat(2, 1fr); }
       .cat-grid { grid-template-columns: repeat(3, 1fr); }
     }
-    @media (max-width: 600px) {
-      .hero { padding: 30px 0 20px; }
-      .cta-btn { font-size: 1.3rem; padding: 12px 28px; }
-      .stat-card { min-width: 100px; padding: 14px 10px; }
-      .stat-number { font-size: 2rem; }
+    @media (max-width: 640px) {
+      .hero { padding: 40px 0 24px; }
+      .cta-btn { font-size: 1.5rem; padding: 16px 32px; }
+      .stat-card { min-width: 120px; padding: 18px 14px; }
+      .stat-number { font-size: 2.8rem; }
       .features-grid { grid-template-columns: 1fr; }
       .cat-grid { grid-template-columns: repeat(2, 1fr); }
-      .pfeq-section { padding: 20px 14px; }
-      .lang-toggle { top: 10px; right: 10px; }
-      .lang-btn { padding: 6px 14px; font-size: 0.85rem; }
+      .pfeq-section { padding: 28px 18px; }
+      .lang-toggle { top: 12px; right: 12px; }
     }
   </style>
 </head>
@@ -410,20 +530,14 @@
     <button class="lang-btn" id="btnEn" onclick="setLang('en')">EN</button>
   </div>
 
-  <!-- Background circles -->
-  <div class="bg-circle c1"></div>
-  <div class="bg-circle c2"></div>
-  <div class="bg-circle c3"></div>
-  <div class="bg-circle c4"></div>
-
   <div class="landing">
 
     <!-- HERO -->
     <section class="hero">
-      <div class="hero-badge">Zone Total Sport</div>
-      <h1 class="hero-title">GIGA-JEUX EPS</h1>
-      <p class="hero-subtitle" data-fr="Le plus gros répertoire de jeux d'éducation physique au Québec !" data-en="The biggest physical education games repertoire in Quebec!">Le plus gros répertoire de jeux d'éducation physique au Québec !</p>
-      <p class="hero-tagline" data-fr="&lt;strong&gt;310 jeux&lt;/strong&gt; alignés avec le Programme de formation de l'école québécoise (PFEQ), prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !" data-en="&lt;strong&gt;310 games&lt;/strong&gt; aligned with the Quebec Education Program (PFEQ), ready to use in your gym. Filter by category, duration, skill or equipment!"><strong>310 jeux</strong> alignés avec le Programme de formation de l'école québécoise (PFEQ), prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !</p>
+      <div class="hero-badge">⚡ Zone Total Sport ⚡</div>
+      <h1 class="hero-title">GIGA-JEUX<br>EPS</h1>
+      <div class="hero-subtitle" data-fr="Le + gros répertoire de jeux EPS au Québec !" data-en="The biggest PE games repertoire in Quebec!">Le + gros répertoire de jeux EPS au Québec !</div>
+      <p class="hero-tagline" data-fr="<strong>310 jeux</strong> alignés avec le PFEQ, prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !" data-en="<strong>310 games</strong> aligned with the PFEQ, ready to use in your gym. Filter by category, duration, skill or equipment!"><strong>310 jeux</strong> alignés avec le PFEQ, prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !</p>
       <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn" id="ctaTop">
         <span class="cta-icon">🎮</span>
         <span data-fr="EXPLORER LES 310 JEUX" data-en="EXPLORE ALL 310 GAMES">EXPLORER LES 310 JEUX</span>
@@ -449,6 +563,8 @@
         <div class="stat-label" data-fr="Bilingue" data-en="Bilingual">Bilingue</div>
       </div>
     </section>
+
+    <div class="divider">✦ ✦ ✦ ✦ ✦</div>
 
     <!-- FEATURES -->
     <h2 class="section-title" data-fr="Pourquoi <span>GIGA-JEUX</span> ?" data-en="Why <span>GIGA-JEUX</span>?">Pourquoi <span>GIGA-JEUX</span> ?</h2>
@@ -496,7 +612,7 @@
       <div class="cat-card chase">
         <span class="cat-icon">🏃</span>
         <div class="cat-name" data-fr="Poursuites" data-en="Chase">Poursuites</div>
-        <div class="cat-count" data-fr="Chase" data-en="Tag Games">Chase</div>
+        <div class="cat-count" data-fr="Tag Games" data-en="Tag Games">Tag Games</div>
       </div>
       <div class="cat-card fun">
         <span class="cat-icon">🎮</span>
@@ -533,7 +649,10 @@
 
     <!-- CTA BOTTOM -->
     <section class="cta-section">
-      <p class="cta-subtitle" data-fr="Prêt à transformer tes cours d'éducation physique ?" data-en="Ready to transform your PE classes?">Prêt à transformer tes cours d'éducation physique ?</p>
+      <div class="speech-wrap">
+        <div class="speech-bubble" data-fr="Prêt à transformer tes cours d'EPS ? 🚀" data-en="Ready to transform your PE classes? 🚀">Prêt à transformer tes cours d'EPS ? 🚀</div>
+      </div>
+      <br><br>
       <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" class="cta-btn" id="ctaBottom">
         <span class="cta-icon">🚀</span>
         <span data-fr="C'EST PARTI !" data-en="LET'S GO!">C'EST PARTI !</span>
@@ -542,7 +661,7 @@
 
     <!-- FOOTER -->
     <footer class="landing-footer">
-      <div class="footer-logo">ZONE TOTAL SPORT</div>
+      <div class="footer-logo">⚡ ZONE TOTAL SPORT ⚡</div>
       <div class="footer-text" data-fr="Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec" data-en="310 Physical Education Games Repertoire • PFEQ Elementary • Quebec">Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec</div>
     </footer>
 
@@ -554,22 +673,12 @@
     function setLang(lang) {
       currentLang = lang;
       document.documentElement.lang = lang;
-
-      // Toggle active button
       document.getElementById('btnFr').classList.toggle('active', lang === 'fr');
       document.getElementById('btnEn').classList.toggle('active', lang === 'en');
-
-      // Update all elements with data-fr / data-en
       document.querySelectorAll('[data-fr][data-en]').forEach(el => {
         const val = lang === 'fr' ? el.getAttribute('data-fr') : el.getAttribute('data-en');
-        if (val.includes('<')) {
-          el.innerHTML = val;
-        } else {
-          el.textContent = val;
-        }
+        if (val.includes('<')) { el.innerHTML = val; } else { el.textContent = val; }
       });
-
-      // Update page title
       document.title = lang === 'fr'
         ? "GIGA-JEUX EPS | 310 Jeux d'Éducation Physique"
         : "GIGA-JEUX EPS | 310 Physical Education Games";
