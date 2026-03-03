@@ -1,16 +1,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Bangers&family=Nunito:wght@800;900&display=swap" rel="stylesheet">
 
 <style>
+/* ===== IFRAME BODY RESET ===== */
+html,body{
+  margin:0!important;
+  padding:0!important;
+  width:100%!important;
+  min-height:100%;
+  overflow-x:hidden;
+  background:#FFE600;
+  box-sizing:border-box;
+}
+
 /* ===== RESET & ROOT ===== */
+*,*::before,*::after{box-sizing:border-box}
 #gl *,#gl *::before,#gl *::after{margin:0;padding:0;box-sizing:border-box}
+
 #gl{
   font-family:'Nunito',Arial Black,sans-serif;
   background:#FFE600;
   color:#111111;
-  position:relative;
   width:100%;
-  min-width:0;
+  display:block;
+  margin:0 auto;
+  text-align:center;
   overflow-x:hidden;
+  position:relative;
 }
 #gl a{color:inherit;text-decoration:none}
 
@@ -25,19 +40,20 @@
 
 /* LANG TOGGLE */
 .gl-lang{
-  display:flex;justify-content:flex-end;
-  padding:20px 24px 0;
+  display:flex;justify-content:flex-end;align-items:center;
+  padding:20px 60px;
   position:sticky;top:0;z-index:200;
   background:#FFE600;
-  border-bottom:3px solid #111111;
+  border-bottom:4px solid #111111;
+  width:100%;
 }
 .gl-lang-box{
   display:flex;border-radius:10px;overflow:hidden;
   border:3px solid #111111;box-shadow:4px 4px 0 #111111;
 }
 .gl-lang-btn{
-  padding:10px 22px;
-  font-family:'Bangers',Impact,sans-serif;font-size:1.3rem;
+  padding:12px 28px;
+  font-family:'Bangers',Impact,sans-serif;font-size:1.4rem;
   letter-spacing:3px;text-transform:uppercase;
   border:none;cursor:pointer;transition:all .15s;
   background:#FFFEF0;color:#111111;
@@ -45,192 +61,195 @@
 .gl-lang-btn.active{background:#E8001D;color:#FFFEF0}
 .gl-lang-btn:hover:not(.active){background:#FFE600}
 
-/* CONTAINER */
+/* MAIN CONTAINER — centred, max-width for whiteboard */
 .gl-wrap{
   position:relative;z-index:1;
-  max-width:1200px;
+  max-width:1300px;
   margin:0 auto;
-  padding:40px 32px 40px;
+  padding:60px 80px 80px;
   width:100%;
+  text-align:center;
 }
 
-/* HERO */
-.gl-hero{text-align:center;padding:50px 0 40px}
-
+/* ── HERO ── */
+.gl-hero{
+  text-align:center;
+  padding:80px 0 70px;
+  width:100%;
+}
 .gl-badge{
   display:inline-block;
   background:#E8001D;color:#FFFEF0;
   font-family:'Bangers',Impact,sans-serif;
-  font-size:1.4rem;letter-spacing:4px;text-transform:uppercase;
-  padding:8px 32px;border-radius:8px;margin-bottom:24px;
+  font-size:1.5rem;letter-spacing:4px;text-transform:uppercase;
+  padding:10px 36px;border-radius:8px;margin-bottom:32px;
   border:4px solid #111111;box-shadow:5px 5px 0 #111111;
-  transform:rotate(-1deg);display:inline-block;
+  transform:rotate(-1deg);
 }
-
 .gl-title{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(4.5rem,12vw,9rem);
+  font-size:clamp(5rem,13vw,10rem);
   text-transform:uppercase;letter-spacing:6px;line-height:.9;
-  margin-bottom:16px;color:#0057FF;
+  margin-bottom:24px;color:#0057FF;
   -webkit-text-stroke:4px #111111;paint-order:stroke fill;
   text-shadow:8px 8px 0px #111111;
   display:block;
 }
-
 .gl-sub{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.5rem,3.5vw,2.4rem);
-  color:#111111;margin-bottom:16px;letter-spacing:2px;
+  font-size:clamp(1.6rem,3.5vw,2.6rem);
+  color:#111111;margin-bottom:24px;letter-spacing:2px;
   background:#FFE600;display:inline-block;
-  padding:4px 16px;border:3px solid #111111;
+  padding:6px 20px;border:3px solid #111111;
   box-shadow:4px 4px 0 #111111;transform:rotate(.5deg);
 }
-
 .gl-tag{
-  font-size:clamp(1.1rem,2vw,1.5rem);font-weight:800;
-  color:#111111;max-width:700px;margin:16px auto 44px;
-  line-height:1.6;background:#FFFEF0;
-  border:4px solid #111111;box-shadow:6px 6px 0 #111111;
-  border-radius:12px;padding:16px 24px;
+  font-size:clamp(1.15rem,2vw,1.55rem);font-weight:800;
+  color:#111111;max-width:750px;margin:20px auto 52px;
+  line-height:1.7;background:#FFFEF0;
+  border:4px solid #111111;box-shadow:7px 7px 0 #111111;
+  border-radius:16px;padding:22px 32px;
+  display:block;
+  text-align:center;
 }
 .gl-tag strong{color:#E8001D}
 
-/* CTA */
+/* CTA BUTTON */
 .gl-cta{
-  display:inline-flex;align-items:center;gap:14px;
+  display:inline-flex;align-items:center;gap:16px;
   background:#00B344;color:#FFFEF0;
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.8rem,3.5vw,2.8rem);
+  font-size:clamp(1.9rem,3.5vw,3rem);
   letter-spacing:4px;text-transform:uppercase;
   text-decoration:none;
-  padding:20px 56px;border-radius:16px;
-  border:5px solid #111111;box-shadow:8px 8px 0 #111111;
+  padding:22px 64px;border-radius:18px;
+  border:5px solid #111111;box-shadow:9px 9px 0 #111111;
   transition:all .15s;cursor:pointer;
 }
 .gl-cta:hover{
   transform:translate(-4px,-4px);
-  box-shadow:12px 12px 0 #111111;
+  box-shadow:13px 13px 0 #111111;
   background:#E8001D;
 }
-.gl-cta-icon{font-size:2.5rem}
+.gl-cta-icon{font-size:2.6rem}
 
-/* STATS */
+/* ── STATS ── */
 .gl-stats{
-  display:flex;justify-content:center;gap:20px;
-  flex-wrap:wrap;margin:50px 0 60px;
+  display:flex;justify-content:center;gap:28px;
+  flex-wrap:wrap;margin:70px 0 80px;
 }
 .gl-stat{
-  border:4px solid #111111;border-radius:16px;
-  padding:28px 32px;text-align:center;
-  min-width:150px;box-shadow:8px 8px 0 #111111;
+  border:4px solid #111111;border-radius:18px;
+  padding:34px 40px;text-align:center;
+  min-width:170px;box-shadow:9px 9px 0 #111111;
   transition:transform .2s,box-shadow .2s;
 }
 .gl-stat:nth-child(1){background:#E8001D;color:#FFFEF0;transform:rotate(-2deg)}
 .gl-stat:nth-child(2){background:#0057FF;color:#FFFEF0;transform:rotate(1.5deg)}
 .gl-stat:nth-child(3){background:#00B344;color:#FFFEF0;transform:rotate(-1deg)}
 .gl-stat:nth-child(4){background:#7B00D4;color:#FFFEF0;transform:rotate(2deg)}
-.gl-stat:hover{transform:translateY(-6px) rotate(0deg);box-shadow:10px 10px 0 #111111}
+.gl-stat:hover{transform:translateY(-6px) rotate(0deg);box-shadow:11px 11px 0 #111111}
 .gl-stat-n{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(3rem,6vw,5rem);
+  font-size:clamp(3.2rem,6vw,5.5rem);
   letter-spacing:3px;line-height:1;
   color:#FFE600;-webkit-text-stroke:2px #111111;
 }
 .gl-stat-l{
-  font-size:clamp(.9rem,1.5vw,1.1rem);font-weight:900;
-  text-transform:uppercase;letter-spacing:2px;margin-top:6px;
+  font-size:clamp(.95rem,1.5vw,1.15rem);font-weight:900;
+  text-transform:uppercase;letter-spacing:2px;margin-top:8px;
   color:#FFFEF0;
+}
+
+/* DIVIDER */
+.gl-div{
+  text-align:center;margin:0 0 70px;
+  font-family:'Bangers',Impact,sans-serif;
+  font-size:1.8rem;letter-spacing:8px;
+  color:#111111;opacity:.3;
 }
 
 /* SECTION TITLE */
 .gl-stitle{
   text-align:center;
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(2.2rem,4vw,3.5rem);
+  font-size:clamp(2.4rem,4.5vw,3.8rem);
   text-transform:uppercase;letter-spacing:4px;
-  margin-bottom:36px;color:#111111;
+  margin-bottom:48px;color:#111111;
   display:block;width:100%;
 }
 .gl-stitle span{
   color:#FFFEF0;background:#0057FF;
-  padding:0 12px;border:3px solid #111111;
+  padding:2px 14px;border:3px solid #111111;
   box-shadow:4px 4px 0 #111111;
   display:inline-block;transform:rotate(-1deg);
 }
 
-/* DIVIDER */
-.gl-div{
-  text-align:center;margin:0 0 48px;
-  font-family:'Bangers',Impact,sans-serif;
-  font-size:1.5rem;letter-spacing:6px;
-  color:#111111;opacity:.3;
-}
-
-/* FEATURES */
+/* ── FEATURES GRID ── */
 .gl-fgrid{
   display:grid;grid-template-columns:repeat(3,1fr);
-  gap:24px;margin-bottom:60px;
+  gap:32px;margin-bottom:80px;
 }
 .gl-fcard{
   background:#FFFEF0;
-  border:4px solid #111111;border-radius:20px;
-  padding:32px 24px;text-align:center;
-  box-shadow:8px 8px 0 #111111;
+  border:4px solid #111111;border-radius:22px;
+  padding:42px 30px;text-align:center;
+  box-shadow:9px 9px 0 #111111;
   transition:transform .2s,box-shadow .2s;
   position:relative;overflow:hidden;
 }
-.gl-fcard::after{content:'';position:absolute;top:0;left:0;right:0;height:8px}
+.gl-fcard::after{content:'';position:absolute;top:0;left:0;right:0;height:10px}
 .gl-fcard:nth-child(1)::after{background:#E8001D}
 .gl-fcard:nth-child(2)::after{background:#0057FF}
 .gl-fcard:nth-child(3)::after{background:#00B344}
 .gl-fcard:nth-child(4)::after{background:#FF6B00}
 .gl-fcard:nth-child(5)::after{background:#7B00D4}
 .gl-fcard:nth-child(6)::after{background:#00C8FF}
-.gl-fcard:hover{transform:translate(-4px,-4px);box-shadow:10px 10px 0 #111111}
-.gl-ficon{font-size:3.5rem;margin-bottom:14px;display:block}
+.gl-fcard:hover{transform:translate(-4px,-4px);box-shadow:11px 11px 0 #111111}
+.gl-ficon{font-size:4rem;margin-bottom:18px;display:block}
 .gl-fname{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.2rem,2vw,1.6rem);
+  font-size:clamp(1.3rem,2vw,1.7rem);
   letter-spacing:2px;text-transform:uppercase;
-  margin-bottom:10px;color:#111111;
+  margin-bottom:14px;color:#111111;
 }
 .gl-fdesc{
-  font-size:clamp(.95rem,1.5vw,1.15rem);
-  color:#333;line-height:1.6;font-weight:800;
+  font-size:clamp(1rem,1.6vw,1.2rem);
+  color:#333;line-height:1.7;font-weight:800;
 }
 
-/* CATEGORIES */
+/* ── CATEGORIES ── */
 .gl-cgrid{
   display:grid;grid-template-columns:repeat(6,1fr);
-  gap:16px;margin-bottom:60px;
+  gap:20px;margin-bottom:80px;
 }
 .gl-cc{
-  border:4px solid #111111;border-radius:16px;
-  padding:24px 10px;text-align:center;
-  box-shadow:6px 6px 0 #111111;
+  border:4px solid #111111;border-radius:18px;
+  padding:30px 12px;text-align:center;
+  box-shadow:7px 7px 0 #111111;
   transition:transform .2s,box-shadow .2s;
 }
-.gl-cc:hover{transform:translateY(-6px) scale(1.05);box-shadow:8px 8px 0 #111111}
+.gl-cc:hover{transform:translateY(-8px) scale(1.05);box-shadow:9px 9px 0 #111111}
 .gl-cc.db{background:#E8001D;color:#FFFEF0}
 .gl-cc.ch{background:#FF6B00;color:#111111}
 .gl-cc.fn{background:#00B344;color:#FFFEF0}
 .gl-cc.tm{background:#0057FF;color:#FFFEF0}
 .gl-cc.wr{background:#7B00D4;color:#FFFEF0}
-.gl-cc.du{background:#FFE600;color:#111111}
-.gl-ci{font-size:clamp(2rem,3vw,3rem);display:block;margin-bottom:8px}
+.gl-cc.du{background:#FFE600;color:#111111;border-color:#111111}
+.gl-ci{font-size:clamp(2.2rem,3.2vw,3.2rem);display:block;margin-bottom:10px}
 .gl-cn{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(.95rem,1.5vw,1.25rem);
+  font-size:clamp(1rem,1.6vw,1.35rem);
   letter-spacing:1px;text-transform:uppercase;
 }
-.gl-csub{font-size:.85rem;font-weight:800;margin-top:4px;opacity:.75}
+.gl-csub{font-size:.9rem;font-weight:800;margin-top:6px;opacity:.75}
 
-/* PFEQ */
+/* ── PFEQ BLOCK ── */
 .gl-pfeq{
   background:#0057FF;
-  border:4px solid #111111;border-radius:24px;
-  padding:44px 36px;margin-bottom:60px;
-  text-align:center;box-shadow:8px 8px 0 #111111;
+  border:5px solid #111111;border-radius:28px;
+  padding:56px 48px;margin-bottom:80px;
+  text-align:center;box-shadow:10px 10px 0 #111111;
   position:relative;overflow:hidden;
 }
 .gl-pfeq::before{
@@ -240,92 +259,91 @@
 }
 .gl-pfeq-t{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.8rem,3.5vw,3rem);
+  font-size:clamp(2rem,3.8vw,3.2rem);
   letter-spacing:3px;text-transform:uppercase;
-  margin-bottom:24px;color:#FFE600;
+  margin-bottom:32px;color:#FFE600;
   -webkit-text-stroke:2px #111111;position:relative;
 }
 .gl-pfeq-b{
   display:flex;justify-content:center;
-  gap:16px;flex-wrap:wrap;
-  margin-bottom:20px;position:relative;
+  gap:20px;flex-wrap:wrap;
+  margin-bottom:28px;position:relative;
 }
 .gl-pb{
-  display:inline-flex;align-items:center;gap:10px;
-  padding:12px 24px;border-radius:12px;
+  display:inline-flex;align-items:center;gap:12px;
+  padding:14px 30px;border-radius:14px;
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.2rem,2vw,1.6rem);
+  font-size:clamp(1.3rem,2.2vw,1.8rem);
   letter-spacing:2px;
-  border:4px solid #111111;box-shadow:4px 4px 0 #111111;
+  border:4px solid #111111;box-shadow:5px 5px 0 #111111;
 }
 .gl-pb.p1{background:#E8001D;color:#FFFEF0}
 .gl-pb.p2{background:#00B344;color:#FFFEF0}
 .gl-pb.p3{background:#FFE600;color:#111111}
 .gl-pfeq-d{
-  font-size:clamp(1rem,1.6vw,1.3rem);
-  color:#FFFEF0;max-width:720px;margin:0 auto;
-  line-height:1.65;font-weight:800;position:relative;
+  font-size:clamp(1.05rem,1.7vw,1.35rem);
+  color:#FFFEF0;max-width:780px;margin:0 auto;
+  line-height:1.7;font-weight:800;position:relative;
 }
 
-/* CTA BOTTOM */
-.gl-ctab{text-align:center;padding:40px 0 50px}
-.gl-ctab-sub{
-  font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.6rem,3vw,2.4rem);
-  color:#111111;margin-bottom:24px;letter-spacing:2px;
+/* ── CTA BOTTOM ── */
+.gl-ctab{
+  text-align:center;
+  padding:60px 0 70px;
 }
 
 /* SPEECH BUBBLE */
-.gl-speech-wrap{display:flex;justify-content:center;margin-bottom:40px}
+.gl-speech-wrap{display:flex;justify-content:center;margin-bottom:56px}
 .gl-speech{
   background:#FFFEF0;
-  border:4px solid #111111;border-radius:20px;
-  padding:20px 36px;
+  border:4px solid #111111;border-radius:22px;
+  padding:24px 44px;
   font-family:'Bangers',Impact,sans-serif;
-  font-size:clamp(1.4rem,2.5vw,2rem);
-  letter-spacing:2px;box-shadow:8px 8px 0 #111111;
+  font-size:clamp(1.5rem,2.8vw,2.2rem);
+  letter-spacing:2px;box-shadow:9px 9px 0 #111111;
   position:relative;display:inline-block;
 }
 .gl-speech::after{
   content:'';position:absolute;
-  bottom:-24px;left:50%;transform:translateX(-50%);
+  bottom:-28px;left:50%;transform:translateX(-50%);
   width:0;height:0;
-  border-left:18px solid transparent;border-right:18px solid transparent;
-  border-top:24px solid #111111;
+  border-left:20px solid transparent;border-right:20px solid transparent;
+  border-top:28px solid #111111;
 }
 .gl-speech::before{
   content:'';position:absolute;
-  bottom:-18px;left:50%;transform:translateX(-50%);
+  bottom:-21px;left:50%;transform:translateX(-50%);
   width:0;height:0;
-  border-left:14px solid transparent;border-right:14px solid transparent;
-  border-top:20px solid #FFFEF0;z-index:1;
+  border-left:16px solid transparent;border-right:16px solid transparent;
+  border-top:22px solid #FFFEF0;z-index:1;
 }
 
 /* FOOTER */
 .gl-foot{
-  text-align:center;padding:28px 0 36px;
-  border-top:4px solid #111111;margin-top:20px;
+  text-align:center;padding:36px 0 48px;
+  border-top:4px solid #111111;margin-top:24px;
 }
 .gl-foot-logo{
   font-family:'Bangers',Impact,sans-serif;
-  font-size:1.5rem;letter-spacing:4px;color:#111111;margin-bottom:6px;
+  font-size:1.7rem;letter-spacing:4px;color:#111111;margin-bottom:8px;
 }
-.gl-foot-txt{font-size:1rem;font-weight:800;color:#444}
+.gl-foot-txt{font-size:1.05rem;font-weight:800;color:#444}
 
-/* RESPONSIVE */
-@media(max-width:1000px){
+/* ── RESPONSIVE ── */
+@media(max-width:1100px){
+  .gl-wrap{padding:50px 48px 60px}
   .gl-fgrid{grid-template-columns:repeat(2,1fr)}
   .gl-cgrid{grid-template-columns:repeat(3,1fr)}
 }
-@media(max-width:640px){
-  .gl-wrap{padding:24px 16px 24px}
-  .gl-hero{padding:30px 0 20px}
-  .gl-cta{font-size:1.5rem;padding:16px 32px}
-  .gl-stat{min-width:120px;padding:18px 14px}
-  .gl-stat-n{font-size:2.8rem}
-  .gl-fgrid{grid-template-columns:1fr}
-  .gl-cgrid{grid-template-columns:repeat(2,1fr)}
-  .gl-pfeq{padding:28px 18px}
+@media(max-width:700px){
+  .gl-wrap{padding:30px 20px 30px}
+  .gl-hero{padding:40px 0 30px}
+  .gl-cta{font-size:1.6rem;padding:18px 36px}
+  .gl-stat{min-width:130px;padding:22px 16px}
+  .gl-fgrid{grid-template-columns:1fr;gap:24px}
+  .gl-cgrid{grid-template-columns:repeat(2,1fr);gap:14px}
+  .gl-pfeq{padding:36px 20px}
+  .gl-stats{gap:16px;margin:50px 0 60px}
 }
 </style>
 
@@ -343,12 +361,12 @@
 
     <!-- HERO -->
     <div class="gl-hero">
-      <div class="gl-badge">⚡ Zone Total Sport ⚡</div>
+      <div class="gl-badge">&#x26A1; Zone Total Sport &#x26A1;</div>
       <h1 class="gl-title">GIGA-JEUX<br>EPS</h1>
-      <div class="gl-sub" data-fr="Le + gros répertoire de jeux EPS au Québec !" data-en="The biggest PE games repertoire in Quebec!">Le + gros répertoire de jeux EPS au Québec !</div>
-      <p class="gl-tag" data-fr="<strong>310 jeux</strong> alignés avec le PFEQ, prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !" data-en="<strong>310 games</strong> aligned with the PFEQ, ready to use in your gym. Filter by category, duration, skill or equipment!"><strong>310 jeux</strong> alignés avec le PFEQ, prêts à utiliser dans ton gymnase. Filtre par catégorie, durée, compétence ou matériel !</p>
+      <div class="gl-sub" data-fr="Le + gros r&#233;pertoire de jeux EPS au Qu&#233;bec !" data-en="The biggest PE games repertoire in Quebec!">Le + gros r&#233;pertoire de jeux EPS au Qu&#233;bec !</div>
+      <p class="gl-tag" data-fr="&lt;strong&gt;310 jeux&lt;/strong&gt; align&#233;s avec le PFEQ, pr&#234;ts &#224; utiliser dans ton gymnase. Filtre par cat&#233;gorie, dur&#233;e, comp&#233;tence ou mat&#233;riel !" data-en="&lt;strong&gt;310 games&lt;/strong&gt; aligned with the PFEQ, ready to use in your gym. Filter by category, duration, skill or equipment!"><strong>310 jeux</strong> align&#233;s avec le PFEQ, pr&#234;ts &#224; utiliser dans ton gymnase. Filtre par cat&#233;gorie, dur&#233;e, comp&#233;tence ou mat&#233;riel !</p>
       <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" target="_top" class="gl-cta">
-        <span class="gl-cta-icon">🎮</span>
+        <span class="gl-cta-icon">&#127918;</span>
         <span data-fr="EXPLORER LES 310 JEUX" data-en="EXPLORE ALL 310 GAMES">EXPLORER LES 310 JEUX</span>
       </a>
     </div>
@@ -356,86 +374,86 @@
     <!-- STATS -->
     <div class="gl-stats">
       <div class="gl-stat"><div class="gl-stat-n">310</div><div class="gl-stat-l" data-fr="Jeux" data-en="Games">Jeux</div></div>
-      <div class="gl-stat"><div class="gl-stat-n">6</div><div class="gl-stat-l" data-fr="Catégories" data-en="Categories">Catégories</div></div>
-      <div class="gl-stat"><div class="gl-stat-n">3</div><div class="gl-stat-l" data-fr="Compétences PFEQ" data-en="PFEQ Skills">Compétences PFEQ</div></div>
+      <div class="gl-stat"><div class="gl-stat-n">6</div><div class="gl-stat-l" data-fr="Cat&#233;gories" data-en="Categories">Cat&#233;gories</div></div>
+      <div class="gl-stat"><div class="gl-stat-n">3</div><div class="gl-stat-l" data-fr="Comp&#233;tences PFEQ" data-en="PFEQ Skills">Comp&#233;tences PFEQ</div></div>
       <div class="gl-stat"><div class="gl-stat-n">FR/EN</div><div class="gl-stat-l" data-fr="Bilingue" data-en="Bilingual">Bilingue</div></div>
     </div>
 
-    <div class="gl-div">✦ ✦ ✦ ✦ ✦</div>
+    <div class="gl-div">&#x2726; &#x2726; &#x2726; &#x2726; &#x2726;</div>
 
     <!-- FEATURES -->
-    <div class="gl-stitle" data-fr="Pourquoi <span>GIGA-JEUX</span> ?" data-en="Why <span>GIGA-JEUX</span>?">Pourquoi <span>GIGA-JEUX</span> ?</div>
+    <div class="gl-stitle" data-fr="Pourquoi &lt;span&gt;GIGA-JEUX&lt;/span&gt; ?" data-en="Why &lt;span&gt;GIGA-JEUX&lt;/span&gt;?">Pourquoi <span>GIGA-JEUX</span> ?</div>
     <div class="gl-fgrid">
       <div class="gl-fcard">
-        <span class="gl-ficon">📋</span>
-        <div class="gl-fname" data-fr="Fiches complètes" data-en="Complete Game Sheets">Fiches complètes</div>
-        <div class="gl-fdesc" data-fr="Chaque jeu inclut le but, le déroulement étape par étape, les variantes, le matériel et la disposition." data-en="Each game includes the objective, step-by-step instructions, variations, equipment and setup.">Chaque jeu inclut le but, le déroulement étape par étape, les variantes, le matériel et la disposition.</div>
+        <span class="gl-ficon">&#128203;</span>
+        <div class="gl-fname" data-fr="Fiches compl&#232;tes" data-en="Complete Game Sheets">Fiches compl&#232;tes</div>
+        <div class="gl-fdesc" data-fr="Chaque jeu inclut le but, le d&#233;roulement &#233;tape par &#233;tape, les variantes, le mat&#233;riel et la disposition." data-en="Each game includes the objective, step-by-step instructions, variations, equipment and setup.">Chaque jeu inclut le but, le d&#233;roulement &#233;tape par &#233;tape, les variantes, le mat&#233;riel et la disposition.</div>
       </div>
       <div class="gl-fcard">
-        <span class="gl-ficon">🎯</span>
-        <div class="gl-fname" data-fr="Aligné PFEQ" data-en="PFEQ Aligned">Aligné PFEQ</div>
-        <div class="gl-fdesc" data-fr="Intentions pédagogiques liées aux 3 compétences du primaire (C1, C2, C3) et compétences transversales." data-en="Pedagogical intentions linked to the 3 elementary skills (C1, C2, C3) and cross-curricular competencies.">Intentions pédagogiques liées aux 3 compétences du primaire (C1, C2, C3) et compétences transversales.</div>
+        <span class="gl-ficon">&#127919;</span>
+        <div class="gl-fname" data-fr="Align&#233; PFEQ" data-en="PFEQ Aligned">Align&#233; PFEQ</div>
+        <div class="gl-fdesc" data-fr="Intentions p&#233;dagogiques li&#233;es aux 3 comp&#233;tences du primaire (C1, C2, C3) et comp&#233;tences transversales." data-en="Pedagogical intentions linked to the 3 elementary skills (C1, C2, C3) and cross-curricular competencies.">Intentions p&#233;dagogiques li&#233;es aux 3 comp&#233;tences du primaire (C1, C2, C3) et comp&#233;tences transversales.</div>
       </div>
       <div class="gl-fcard">
-        <span class="gl-ficon">🖥️</span>
+        <span class="gl-ficon">&#128421;&#65039;</span>
         <div class="gl-fname" data-fr="Tableau blanc" data-en="Whiteboard Ready">Tableau blanc</div>
-        <div class="gl-fdesc" data-fr="Interface optimisée pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !" data-en="Interface optimized for gym interactive whiteboards. Big text, vivid colors!">Interface optimisée pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !</div>
+        <div class="gl-fdesc" data-fr="Interface optimis&#233;e pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !" data-en="Interface optimized for gym interactive whiteboards. Big text, vivid colors!">Interface optimis&#233;e pour les tableaux blancs interactifs du gymnase. Gros texte, couleurs vives !</div>
       </div>
       <div class="gl-fcard">
-        <span class="gl-ficon">⏱️</span>
-        <div class="gl-fname" data-fr="Minuterie intégrée" data-en="Built-in Timer">Minuterie intégrée</div>
-        <div class="gl-fdesc" data-fr="Chrono intégré avec préréglages (1, 2, 5, 10, 15, 20 min) pour gérer tes activités." data-en="Built-in timer with presets (1, 2, 5, 10, 15, 20 min) to manage your activities.">Chrono intégré avec préréglages (1, 2, 5, 10, 15, 20 min) pour gérer tes activités.</div>
+        <span class="gl-ficon">&#9201;&#65039;</span>
+        <div class="gl-fname" data-fr="Minuterie int&#233;gr&#233;e" data-en="Built-in Timer">Minuterie int&#233;gr&#233;e</div>
+        <div class="gl-fdesc" data-fr="Chrono int&#233;gr&#233; avec pr&#233;r&#233;glages (1, 2, 5, 10, 15, 20 min) pour g&#233;rer tes activit&#233;s." data-en="Built-in timer with presets (1, 2, 5, 10, 15, 20 min) to manage your activities.">Chrono int&#233;gr&#233; avec pr&#233;r&#233;glages (1, 2, 5, 10, 15, 20 min) pour g&#233;rer tes activit&#233;s.</div>
       </div>
       <div class="gl-fcard">
-        <span class="gl-ficon">🎲</span>
-        <div class="gl-fname" data-fr="Jeu aléatoire" data-en="Random Game">Jeu aléatoire</div>
+        <span class="gl-ficon">&#127922;</span>
+        <div class="gl-fname" data-fr="Jeu al&#233;atoire" data-en="Random Game">Jeu al&#233;atoire</div>
         <div class="gl-fdesc" data-fr="Un bouton pour piger un jeu au hasard. Parfait quand tu manques d'inspiration !" data-en="A button to pick a random game. Perfect when you need inspiration!">Un bouton pour piger un jeu au hasard. Parfait quand tu manques d'inspiration !</div>
       </div>
       <div class="gl-fcard">
-        <span class="gl-ficon">🌐</span>
+        <span class="gl-ficon">&#127760;</span>
         <div class="gl-fname" data-fr="Bilingue FR / EN" data-en="Bilingual FR / EN">Bilingue FR / EN</div>
-        <div class="gl-fdesc" data-fr="Bascule entre français et anglais en un clic. Idéal pour les écoles anglophones du Québec." data-en="Switch between French and English in one click. Ideal for English-speaking schools in Quebec.">Bascule entre français et anglais en un clic. Idéal pour les écoles anglophones du Québec.</div>
+        <div class="gl-fdesc" data-fr="Bascule entre fran&#231;ais et anglais en un clic. Id&#233;al pour les &#233;coles anglophones du Qu&#233;bec." data-en="Switch between French and English in one click. Ideal for English-speaking schools in Quebec.">Bascule entre fran&#231;ais et anglais en un clic. Id&#233;al pour les &#233;coles anglophones du Qu&#233;bec.</div>
       </div>
     </div>
 
     <!-- CATEGORIES -->
-    <div class="gl-stitle" data-fr="6 <span>Catégories</span> de jeux" data-en="6 Game <span>Categories</span>">6 <span>Catégories</span> de jeux</div>
+    <div class="gl-stitle" data-fr="6 &lt;span&gt;Cat&#233;gories&lt;/span&gt; de jeux" data-en="6 Game &lt;span&gt;Categories&lt;/span&gt;">6 <span>Cat&#233;gories</span> de jeux</div>
     <div class="gl-cgrid">
-      <div class="gl-cc db"><span class="gl-ci">🔴</span><div class="gl-cn" data-fr="Ballons chasseurs" data-en="Dodgeball">Ballons chasseurs</div><div class="gl-csub" data-fr="Dodgeball" data-en="Dodgeball">Dodgeball</div></div>
-      <div class="gl-cc ch"><span class="gl-ci">🏃</span><div class="gl-cn" data-fr="Poursuites" data-en="Chase">Poursuites</div><div class="gl-csub" data-fr="Tag Games" data-en="Tag Games">Tag Games</div></div>
-      <div class="gl-cc fn"><span class="gl-ci">🎮</span><div class="gl-cn" data-fr="Ludiques" data-en="Fun / Co-op">Ludiques</div><div class="gl-csub" data-fr="Coopératifs" data-en="Cooperative">Coopératifs</div></div>
-      <div class="gl-cc tm"><span class="gl-ci">⚽</span><div class="gl-cn" data-fr="Collectifs" data-en="Team Sports">Collectifs</div><div class="gl-csub" data-fr="Équipe" data-en="Team">Équipe</div></div>
-      <div class="gl-cc wr"><span class="gl-ci">🤼</span><div class="gl-cn" data-fr="Opposition" data-en="Wrestling">Opposition</div><div class="gl-csub" data-fr="Combat" data-en="Combat">Combat</div></div>
-      <div class="gl-cc du"><span class="gl-ci">⚔️</span><div class="gl-cn" data-fr="Duels" data-en="Duels">Duels</div><div class="gl-csub" data-fr="1 contre 1" data-en="1 vs 1">1 contre 1</div></div>
+      <div class="gl-cc db"><span class="gl-ci">&#128308;</span><div class="gl-cn" data-fr="Ballons chasseurs" data-en="Dodgeball">Ballons chasseurs</div><div class="gl-csub" data-fr="Dodgeball" data-en="Dodgeball">Dodgeball</div></div>
+      <div class="gl-cc ch"><span class="gl-ci">&#127939;</span><div class="gl-cn" data-fr="Poursuites" data-en="Chase">Poursuites</div><div class="gl-csub" data-fr="Tag Games" data-en="Tag Games">Tag Games</div></div>
+      <div class="gl-cc fn"><span class="gl-ci">&#127918;</span><div class="gl-cn" data-fr="Ludiques" data-en="Fun / Co-op">Ludiques</div><div class="gl-csub" data-fr="Coop&#233;ratifs" data-en="Cooperative">Coop&#233;ratifs</div></div>
+      <div class="gl-cc tm"><span class="gl-ci">&#9917;</span><div class="gl-cn" data-fr="Collectifs" data-en="Team Sports">Collectifs</div><div class="gl-csub" data-fr="&#201;quipe" data-en="Team">&#201;quipe</div></div>
+      <div class="gl-cc wr"><span class="gl-ci">&#129340;</span><div class="gl-cn" data-fr="Opposition" data-en="Wrestling">Opposition</div><div class="gl-csub" data-fr="Combat" data-en="Combat">Combat</div></div>
+      <div class="gl-cc du"><span class="gl-ci">&#9876;&#65039;</span><div class="gl-cn" data-fr="Duels" data-en="Duels">Duels</div><div class="gl-csub" data-fr="1 contre 1" data-en="1 vs 1">1 contre 1</div></div>
     </div>
 
     <!-- PFEQ -->
     <div class="gl-pfeq">
-      <div class="gl-pfeq-t" data-fr="🏫 Conforme au Programme PFEQ" data-en="🏫 PFEQ Program Compliant">🏫 Conforme au Programme PFEQ</div>
+      <div class="gl-pfeq-t" data-fr="&#127978; Conforme au Programme PFEQ" data-en="&#127978; PFEQ Program Compliant">&#127978; Conforme au Programme PFEQ</div>
       <div class="gl-pfeq-b">
-        <span class="gl-pb p1" data-fr="C1 — Agir" data-en="C1 — Act">C1 — Agir</span>
-        <span class="gl-pb p2" data-fr="C2 — Interagir" data-en="C2 — Interact">C2 — Interagir</span>
-        <span class="gl-pb p3" data-fr="C3 — Adopter" data-en="C3 — Adopt">C3 — Adopter</span>
+        <span class="gl-pb p1" data-fr="C1 &#8212; Agir" data-en="C1 &#8212; Act">C1 &#8212; Agir</span>
+        <span class="gl-pb p2" data-fr="C2 &#8212; Interagir" data-en="C2 &#8212; Interact">C2 &#8212; Interagir</span>
+        <span class="gl-pb p3" data-fr="C3 &#8212; Adopter" data-en="C3 &#8212; Adopt">C3 &#8212; Adopter</span>
       </div>
-      <p class="gl-pfeq-d" data-fr="Chaque jeu est lié aux compétences du Programme de formation de l'école québécoise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif)." data-en="Each game is linked to the Quebec Education Program competencies. Easily filter by C1 (act in various contexts), C2 (interact) or C3 (adopt a healthy and active lifestyle).">Chaque jeu est lié aux compétences du Programme de formation de l'école québécoise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif).</p>
+      <p class="gl-pfeq-d" data-fr="Chaque jeu est li&#233; aux comp&#233;tences du Programme de formation de l&#8217;&#233;cole qu&#233;b&#233;coise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif)." data-en="Each game is linked to the Quebec Education Program competencies. Easily filter by C1 (act in various contexts), C2 (interact) or C3 (adopt a healthy and active lifestyle).">Chaque jeu est li&#233; aux comp&#233;tences du Programme de formation de l&#8217;&#233;cole qu&#233;b&#233;coise. Filtre facilement par C1 (agir dans divers contextes), C2 (interagir) ou C3 (adopter un mode de vie sain et actif).</p>
     </div>
 
     <!-- CTA BOTTOM -->
     <div class="gl-ctab">
       <div class="gl-speech-wrap">
-        <div class="gl-speech" data-fr="Prêt à transformer tes cours d'EPS ? 🚀" data-en="Ready to transform your PE classes? 🚀">Prêt à transformer tes cours d'EPS ? 🚀</div>
+        <div class="gl-speech" data-fr="Pr&#234;t &#224; transformer tes cours d&#8217;EPS ? &#128640;" data-en="Ready to transform your PE classes? &#128640;">Pr&#234;t &#224; transformer tes cours d&#8217;EPS ? &#128640;</div>
       </div>
       <br><br>
       <a href="https://zonetotalsport.github.io/repertoire-jeux-eps/" target="_top" class="gl-cta">
-        <span class="gl-cta-icon">🚀</span>
-        <span data-fr="C'EST PARTI !" data-en="LET'S GO!">C'EST PARTI !</span>
+        <span class="gl-cta-icon">&#128640;</span>
+        <span data-fr="C&#8217;EST PARTI !" data-en="LET&#8217;S GO!">C&#8217;EST PARTI !</span>
       </a>
     </div>
 
     <!-- FOOTER -->
     <div class="gl-foot">
-      <div class="gl-foot-logo">⚡ ZONE TOTAL SPORT ⚡</div>
-      <div class="gl-foot-txt" data-fr="Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec" data-en="310 Physical Education Games Repertoire • PFEQ Elementary • Quebec">Répertoire de 310 jeux d'éducation physique • PFEQ Primaire • Québec</div>
+      <div class="gl-foot-logo">&#x26A1; ZONE TOTAL SPORT &#x26A1;</div>
+      <div class="gl-foot-txt" data-fr="R&#233;pertoire de 310 jeux d&#8217;&#233;ducation physique &#8226; PFEQ Primaire &#8226; Qu&#233;bec" data-en="310 Physical Education Games Repertoire &#8226; PFEQ Elementary &#8226; Quebec">R&#233;pertoire de 310 jeux d&#8217;&#233;ducation physique &#8226; PFEQ Primaire &#8226; Qu&#233;bec</div>
     </div>
 
   </div><!-- /gl-wrap -->
