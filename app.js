@@ -593,6 +593,8 @@ function createGameCard(game, index) {
   const card = document.createElement('div');
   card.className = 'game-card';
   card.style.animationDelay = `${Math.min(index * 0.03, 0.3)}s`;
+  const catCfg = CATEGORIES[game.category] || {};
+  if (catCfg.color) card.style.setProperty('--cat', catCfg.color);
   card.onclick = () => openGameDetail(game);
 
   const isFav = state.favorites.includes(game.id);
@@ -654,13 +656,13 @@ function openGameDetail(game) {
     </div>
     <div class="detail-sections">
       <!-- But -->
-      <div class="detail-section">
+      <div class="detail-section section-full" data-section="but">
         <div class="detail-section-title">${t('goalTitle')}</div>
         <p>${escapeHtml(but)}</p>
       </div>
 
       <!-- Intentions pédagogiques -->
-      <div class="detail-section">
+      <div class="detail-section section-full" data-section="pedagogy">
         <div class="detail-section-title">${t('pedagogyTitle')}</div>
         <div class="competency-grid">
           ${intentionsC1 ? `<div class="comp-item"><span class="comp-badge c1">C1</span> ${escapeHtml(intentionsC1)}</div>` : ''}
@@ -670,8 +672,14 @@ function openGameDetail(game) {
         </div>
       </div>
 
+      <!-- Disposition -->
+      <div class="detail-section section-third" data-section="disposition">
+        <div class="detail-section-title">${t('dispositionTitle')}</div>
+        <p>${escapeHtml(disposition)}</p>
+      </div>
+
       <!-- Matériel -->
-      <div class="detail-section">
+      <div class="detail-section section-third" data-section="material">
         <div class="detail-section-title">${t('materialTitle')}</div>
         <div class="material-tags">
           ${(Array.isArray(materiel) ? materiel : [materiel]).map(m =>
@@ -680,20 +688,14 @@ function openGameDetail(game) {
         </div>
       </div>
 
-      <!-- Disposition -->
-      <div class="detail-section">
-        <div class="detail-section-title">${t('dispositionTitle')}</div>
-        <p>${escapeHtml(disposition)}</p>
-      </div>
-
       <!-- Durée -->
-      <div class="detail-section">
+      <div class="detail-section section-third" data-section="duration">
         <div class="detail-section-title">${t('durationTitle')}</div>
         <p>${escapeHtml(game.duree || game.dureeMin + ' ' + t('minutes'))}</p>
       </div>
 
       <!-- Déroulement -->
-      <div class="detail-section">
+      <div class="detail-section section-full" data-section="steps">
         <div class="detail-section-title">${t('stepsTitle')}</div>
         <ol>
           ${deroulement.map(step =>
@@ -704,7 +706,7 @@ function openGameDetail(game) {
 
       <!-- Variantes -->
       ${variantes && variantes.length > 0 ? `
-      <div class="detail-section">
+      <div class="detail-section section-full" data-section="variants">
         <div class="detail-section-title">${t('variantsTitle')}</div>
         ${variantes.map(v => `<div class="variante-item">${escapeHtml(v)}</div>`).join('')}
       </div>
@@ -968,21 +970,20 @@ function printGame(gameId) {
     <head>
       <meta charset="UTF-8">
       <title>${g(game, 'title')} – ${t('gameSheet')}</title>
+      <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&family=Gloria+Hallelujah&display=swap" rel="stylesheet">
       <style>
-        @font-face { font-family: 'Bangers'; src: url('Bangers-Regular.ttf'); }
-        @font-face { font-family: 'Barriecito'; src: url('Barriecito-Regular.ttf'); }
-        body { font-family: 'Barriecito', -apple-system, sans-serif; max-width: 700px; margin: 0 auto; padding: 30px; color: #1A1A2E; }
-        h1 { font-family: 'Bangers', Impact, sans-serif; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; border-bottom: 3px solid ${catConfig.color || '#333'}; padding-bottom: 8px; margin-bottom: 4px; }
-        .meta { font-family: 'Barriecito', sans-serif; font-size: 0.9rem; color: #666; margin-bottom: 16px; }
-        .badge { display: inline-block; padding: 2px 10px; border-radius: 50px; font-family: 'Bangers', sans-serif; font-size: 0.8rem; font-weight: 700; color: white; background: ${catConfig.color || '#333'}; letter-spacing: 1px; }
-        h2 { font-family: 'Bangers', Impact, sans-serif; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; color: ${catConfig.color || '#333'}; margin: 14px 0 6px; border-bottom: 1px dashed #ccc; padding-bottom: 4px; }
-        p, li { font-family: 'Barriecito', sans-serif; font-size: 0.92rem; line-height: 1.7; }
-        ul, ol { padding-left: 20px; }
-        li { margin-bottom: 3px; }
-        .variante { padding-left: 16px; margin-bottom: 4px; font-family: 'Barriecito', sans-serif; font-size: 0.92rem; }
+        body { font-family: 'Gloria Hallelujah', cursive; max-width: 750px; margin: 0 auto; padding: 30px; color: #1A1A2E; }
+        h1 { font-family: 'Luckiest Guy', cursive; font-size: 2rem; letter-spacing: 1px; text-transform: uppercase; border-bottom: 4px solid ${catConfig.color || '#333'}; padding-bottom: 10px; margin-bottom: 6px; color: #0f172a; }
+        .meta { font-family: 'Gloria Hallelujah', cursive; font-size: 1rem; color: #555; margin-bottom: 18px; }
+        .badge { display: inline-block; padding: 4px 14px; border-radius: 999px; font-family: 'Luckiest Guy', cursive; font-size: 0.95rem; color: white; background: ${catConfig.color || '#333'}; letter-spacing: 1px; }
+        h2 { font-family: 'Luckiest Guy', cursive; font-size: 1.25rem; letter-spacing: 1.5px; text-transform: uppercase; color: ${catConfig.color || '#333'}; margin: 18px 0 8px; border-bottom: 2px dashed #ccc; padding-bottom: 4px; }
+        p, li { font-family: 'Gloria Hallelujah', cursive; font-size: 1rem; line-height: 1.65; }
+        ul, ol { padding-left: 22px; }
+        li { margin-bottom: 4px; }
+        .variante { padding-left: 16px; margin-bottom: 6px; font-family: 'Gloria Hallelujah', cursive; font-size: 1rem; }
         .variante::before { content: "💡 "; }
-        .footer { margin-top: 24px; padding-top: 10px; border-top: 2px solid #333; font-size: 0.75rem; color: #999; text-align: center; font-family: 'Barriecito', sans-serif; }
-        .material-tag { display: inline-block; padding: 2px 8px; margin: 2px; border: 1px solid #333; border-radius: 50px; font-family: 'Barriecito', sans-serif; font-size: 0.85rem; }
+        .footer { margin-top: 28px; padding-top: 12px; border-top: 2px solid #333; font-size: 0.85rem; color: #888; text-align: center; font-family: 'Luckiest Guy', cursive; letter-spacing: 1px; }
+        .material-tag { display: inline-block; padding: 4px 12px; margin: 3px; border: 2px solid ${catConfig.color || '#333'}; border-radius: 999px; font-family: 'Luckiest Guy', cursive; font-size: 0.9rem; color: ${catConfig.color || '#333'}; letter-spacing: 0.5px; }
         @media print { body { padding: 10px; } }
       </style>
     </head>
